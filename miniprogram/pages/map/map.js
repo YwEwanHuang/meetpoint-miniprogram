@@ -12,7 +12,7 @@ const TRANSPORT_MODES = [
 
 Page({
   data: {
-    myLocation: { latitude: 39.908823, longitude: 116.397470 }, // 默认北京
+    myLocation: { latitude: 39.908823, longitude: 116.397470 },
     partnerLocation: { latitude: null, longitude: null },
     markers: [],
     polylines: [],
@@ -25,11 +25,23 @@ Page({
   },
 
   onLoad() {
+    if (!app.globalData.pairId) {
+      wx.showModal({
+        title: '尚未配对',
+        content: '请先在首页创建配对或加入配对后再进入地图',
+        confirmText: '去首页',
+        success: (res) => {
+          if (res.confirm) wx.switchTab({ url: '/pages/index/index' });
+          else wx.switchTab({ url: '/pages/index/index' });
+        },
+      });
+      return;
+    }
     this.refreshMyLocation();
   },
 
   onShow() {
-    // 每次进入页面刷新位置
+    if (!app.globalData.pairId) return;
     this.refreshMyLocation();
     this.refreshPartnerLocation();
   },
@@ -44,22 +56,21 @@ Page({
         wx.hideLoading();
         const loc = { latitude: res.latitude, longitude: res.longitude };
         this.setData({ myLocation: loc });
-
-        // 上报到服务器
-        this.reportMyLocation(loc);
-
-        // 更新自己的地图标记
+        this.reportMyLocation(loc, true);
         this.updateMarkers();
       },
-      fail: () => {
+      fail: (err) => {
         wx.hideLoading();
-        wx.showToast({ title: '请开启位置权限', icon: 'none' });
+        wx.showToast({ title: '获取位置失败，请检查权限', icon: 'none' });
+      },
+      complete: () => {
+        wx.hideLoading();
       },
     });
   },
 
   // 上报位置到服务器
-  reportMyLocation(loc) {
+  reportMyLocation(loc, showError) {
     if (!app.globalData.pairId || !app.globalData.openid) return;
 
     wx.request({
@@ -71,8 +82,10 @@ Page({
         lat: loc.latitude,
         lng: loc.longitude,
       },
-      fail: () => {
-        console.error('位置上报失败');
+      fail: (err) => {
+        if (showError) {
+          wx.showToast({ title: '位置上报失败', icon: 'none' });
+        }
       },
     });
   },
@@ -86,7 +99,7 @@ Page({
       success: (res) => {
         if (res.data && res.data.users) {
           const partner = res.data.users.find(
-            u => u.openid !== app.globalData.openid
+            (u) => u.openid !== app.globalData.openid
           );
           if (partner && partner.lat != null && partner.lng != null) {
             this.setData({
@@ -95,6 +108,9 @@ Page({
             this.updateMarkers();
           }
         }
+      },
+      fail: (err) => {
+        console.error('刷新对方位置失败:', err);
       },
     });
   },
@@ -127,7 +143,6 @@ Page({
       });
     }
 
-    // 包含双方和相遇点
     let points = [myLocation];
     if (partnerLocation.latitude) points.push(partnerLocation);
     if (this.data.meetingPoint) {
@@ -137,17 +152,13 @@ Page({
       });
     }
 
-    this.setData({
-      markers,
-      includePoints: points,
-    });
+    this.setData({ markers, includePoints: points });
   },
 
   // 切换交通方式
   switchMode(e) {
     const mode = e.currentTarget.dataset.mode;
     this.setData({ currentMode: mode });
-    // 重新计算路线
     if (this.data.partnerLocation.latitude) {
       this.calculateRoute();
     }
@@ -180,7 +191,7 @@ Page({
           wx.showToast({ title: '路线计算失败', icon: 'none' });
         }
       },
-      fail: () => {
+      fail: (err) => {
         wx.hideLoading();
         wx.showToast({ title: '网络错误', icon: 'none' });
       },
@@ -189,7 +200,7 @@ Page({
 
   // 计算相遇点
   calculateMeetingPoint() {
-    const { myLocation, partnerLocation, currentMode } = this.data;
+    const { partnerLocation, currentMode } = this.data;
     if (!partnerLocation.latitude) {
       wx.showToast({ title: '对方位置不可用', icon: 'none' });
       return;
@@ -209,11 +220,7 @@ Page({
         wx.hideLoading();
         if (res.data.meetingPoint) {
           const mp = res.data;
-          this.setData({
-            routeInfo: mp,
-            meetingPoint: mp,
-            panelExpanded: true,
-          });
+          this.setData({ routeInfo: mp, meetingPoint: mp, panelExpanded: true });
           this.updateMarkers();
           this.drawRoute(mp);
         } else {

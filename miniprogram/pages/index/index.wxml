@@ -16,8 +16,8 @@
       <button class="btn-primary" bindtap="createPair">
         创建配对
       </button>
-      <button class="btn-secondary" bindtap="scanQR">
-        📷 扫码加入
+      <button class="btn-secondary" bindtap="goToPartner">
+        🔢 输入配对码加入
       </button>
     </view>
   </block>
@@ -46,12 +46,25 @@
 
       <view class="divider"></view>
 
+      <!-- 配对码 -->
       <view class="pair-code-row">
         <view class="pair-code-info">
           <text class="pair-code-label">配对码</text>
           <text class="pair-code-value">{{pairCode}}</text>
         </view>
         <button class="copy-btn" bindtap="copyCode">复制</button>
+      </view>
+
+      <!-- 二维码（让对方扫） -->
+      <view class="qr-section" wx:if="{{qrCodeUrl}}">
+        <text class="qr-hint">让朋友扫描以下二维码加入</text>
+        <image
+          class="qr-image"
+          src="{{qrCodeUrl}}"
+          mode="aspectFit"
+          bindtap="previewQRCode"
+        />
+        <text class="qr-tip">或让朋友在首页点击「输入配对码加入」</text>
       </view>
     </view>
 
@@ -63,15 +76,6 @@
       <button class="btn-text" bindtap="showUnpairConfirm">
         解除配对
       </button>
-    </view>
-
-    <!-- 最近记录预览 -->
-    <view class="recent-card" wx:if="{{recentRecord}}">
-      <text class="recent-title">最近记录</text>
-      <view class="recent-item">
-        <text class="recent-date">{{recentRecord.date}}</text>
-        <text class="recent-meta">{{recentRecord.transport}} · {{recentRecord.timeDiff}}</text>
-      </view>
     </view>
   </block>
 

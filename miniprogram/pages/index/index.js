@@ -10,6 +10,7 @@ Page({
     partner: null,
     recentRecord: null,
     notifCount: 0,
+    qrCodeUrl: '',
   },
 
   onShow() {
@@ -28,7 +29,40 @@ Page({
     if (hasPair) {
       this.refreshLocation();
       this.loadRecentRecord();
+      this.generateQRCode();
+    } else {
+      this.setData({ qrCodeUrl: '' });
     }
+  },
+
+  // 生成配对二维码
+  generateQRCode() {
+    if (!app.globalData.pairCode) return;
+
+    const qrUrl = `meetpoint://pair?code=${app.globalData.pairCode}`;
+    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrUrl)}`;
+
+    // 先下载图片到本地（wx.downloadFile）
+    wx.downloadFile({
+      url: qrApiUrl,
+      success: (res) => {
+        if (res.statusCode === 200 && res.tempFilePath) {
+          this.setData({ qrCodeUrl: res.tempFilePath });
+        }
+      },
+      fail: () => {
+        console.error('二维码生成失败');
+      },
+    });
+  },
+
+  // 预览二维码（大图）
+  previewQRCode() {
+    if (!this.data.qrCodeUrl) return;
+    wx.previewImage({
+      urls: [this.data.qrCodeUrl],
+      current: this.data.qrCodeUrl,
+    });
   },
 
   loadNotifications() {
@@ -65,6 +99,8 @@ Page({
           app.savePairInfo(res.data.pairId, res.data.code, null);
           this.setData({ hasPair: true, pairCode: res.data.code });
           wx.showToast({ title: '配对已创建', icon: 'success' });
+          // 生成二维码让对方扫
+          setTimeout(() => this.generateQRCode(), 300);
         } else {
           wx.showToast({ title: res.data.error || '创建失败', icon: 'none' });
         }
@@ -76,57 +112,9 @@ Page({
     });
   },
 
-  scanQR() {
-    wx.scanCode({
-      onlyFromCamera: true,
-      success: (res) => {
-        this.handleScannedCode(res.result || res.rawData);
-      },
-      fail: () => {
-        wx.showToast({ title: '扫码失败', icon: 'none' });
-      },
-    });
-  },
-
-  handleScannedCode(code) {
-    let pairCode = code.trim();
-    try {
-      const url = new URL(code);
-      if (url.hostname === 'pair') {
-        pairCode = url.searchParams.get('code') || pairCode;
-      }
-    } catch (e) { /* not a URL */ }
-
-    if (!/^[A-Z0-9]{6}$/i.test(pairCode)) {
-      wx.showToast({ title: '无效的配对码', icon: 'none' });
-      return;
-    }
-
-    pairCode = pairCode.toUpperCase();
-    wx.showLoading({ title: '加入中...' });
-    wx.request({
-      url: `${app.globalData.apiBase}/pair/join`,
-      method: 'POST',
-      data: {
-        code: pairCode,
-        openid: app.globalData.openid,
-        nickname: app.globalData.nickname || '我',
-      },
-      success: (res) => {
-        wx.hideLoading();
-        if (res.data.pairId) {
-          app.savePairInfo(res.data.pairId, pairCode, res.data.partner);
-          this.setData({ hasPair: true, pairCode, partner: res.data.partner });
-          wx.showToast({ title: '加入成功', icon: 'success' });
-        } else {
-          wx.showToast({ title: res.data.error || '加入失败', icon: 'none' });
-        }
-      },
-      fail: () => {
-        wx.hideLoading();
-        wx.showToast({ title: '网络错误', icon: 'none' });
-      },
-    });
+  // 跳转到输入配对码页面
+  goToPartner() {
+    wx.navigateTo({ url: '/pages/partner/partner' });
   },
 
   goToMap() {
@@ -197,12 +185,20 @@ Page({
       data: { openid: app.globalData.openid },
       success: () => {
         app.clearPairInfo();
-        this.setData({ hasPair: false, pairCode: '', partner: null, recentRecord: null });
+        this.setData({ hasPair: false, pairCode: '', partner: null, qrCodeUrl: '' });
         wx.showToast({ title: '已解除', icon: 'success' });
       },
       fail: () => {
         wx.showToast({ title: '解除失败', icon: 'none' });
       },
     });
+  },
+
+  onShareAppMessage() {
+    if (!this.data.pairCode) return;
+    return {
+      title: '加入我的配对 - 约见',
+      path: `/pages/partner/partner?code=${this.data.pairCode}`,
+    };
   },
 });

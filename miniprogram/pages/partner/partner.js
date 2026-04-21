@@ -10,8 +10,23 @@ Page({
     scanning: false,
   },
 
+  onLoad(options) {
+    // 接收分享链接中的配对码
+    if (options && options.code) {
+      const code = options.code.toUpperCase();
+      if (/^[A-Z0-9]{6}$/.test(code)) {
+        this.setData({ code });
+        wx.showToast({ title: '已识别配对码', icon: 'success' });
+        // 自动触发加入
+        setTimeout(() => this.joinPair(code), 800);
+      }
+    }
+  },
+
   onShow() {
-    this.setData({ myCode: app.globalData.pairCode || '' });
+    this.setData({
+      myCode: app.globalData.pairCode || '',
+    });
   },
 
   onCodeInput(e) {
@@ -27,7 +42,7 @@ Page({
       onlyFromCamera: true,
       success: (res) => {
         this.setData({ scanning: false });
-        this.handleScannedCode(res.result || res.rawData);
+        this.handleScannedCode(res.result || res.rawData || '');
       },
       fail: (err) => {
         this.setData({ scanning: false });
@@ -39,11 +54,11 @@ Page({
 
   // 解析扫码结果
   handleScannedCode(code) {
+    let pairCode = (code || '').trim();
+
     // 支持格式：
     // 1. meetpoint://pair?code=ABC123
     // 2. 直接的6位配对码
-    let pairCode = code.trim();
-
     try {
       const url = new URL(code);
       if (url.hostname === 'pair' || code.startsWith('meetpoint://')) {
@@ -57,14 +72,16 @@ Page({
     if (/^[A-Z0-9]{6}$/i.test(pairCode)) {
       this.setData({ code: pairCode.toUpperCase() });
       wx.showToast({ title: '已识别配对码', icon: 'success' });
+      // 自动触发加入
+      setTimeout(() => this.joinPair(pairCode.toUpperCase()), 800);
     } else {
       wx.showToast({ title: '无效的配对码', icon: 'none' });
     }
   },
 
-  // 加入配对
-  joinPair() {
-    const code = this.data.code.trim();
+  // 加入配对（可指定 code 参数）
+  joinPair(codeFromParam) {
+    const code = codeFromParam || this.data.code.trim();
     if (!code || code.length !== 6) {
       wx.showToast({ title: '请输入6位配对码', icon: 'none' });
       return;
@@ -90,7 +107,9 @@ Page({
         if (res.data.pairId) {
           app.savePairInfo(res.data.pairId, code, res.data.partner);
           wx.showToast({ title: '加入成功', icon: 'success' });
-          setTimeout(() => wx.switchTab({ url: '/pages/index/index' }), 1500);
+          setTimeout(() => {
+            wx.switchTab({ url: '/pages/index/index' });
+          }, 1500);
         } else {
           wx.showToast({ title: res.data.error || '加入失败', icon: 'none' });
         }
@@ -111,12 +130,20 @@ Page({
     });
   },
 
-  // 生成分享图片（含配对码）
+  // 分享配对码（生成分享图片）
   shareCode() {
     if (!this.data.myCode) return;
     wx.showShareMenu({
       withShareTicket: true,
       menus: ['shareAppMessage', 'shareTimeline'],
     });
+  },
+
+  onShareAppMessage() {
+    return {
+      title: '加入我的配对 - 约见',
+      path: `/pages/partner/partner?code=${this.data.myCode}`,
+      imageUrl: '',
+    };
   },
 });

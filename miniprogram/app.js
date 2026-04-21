@@ -13,7 +13,7 @@ App({
     // 交通偏好
     transportMode: 'driving',
 
-    // 服务器地址（开发时用局域网IP，生产时换成实际域名）
+    // 服务器地址
     // 请修改为你的实际服务器地址
     apiBase: 'YOUR_SERVER_API_BASE',
 
@@ -22,24 +22,28 @@ App({
   },
 
   onLaunch() {
-    // 获取登录态
-    const self = this;
-    wx.getUserProfile({
-      desc: '用于配对和位置共享',
+    // 获取用户信息（新版，已废弃 wx.getUserProfile）
+    wx.getUserInfo({
+      lang: 'zh_CN',
       success(res) {
-        self.globalData.nickname = res.userInfo.nickName;
-        self.globalData.avatar = res.userInfo.avatarUrl;
+        getApp().globalData.nickname = res.userInfo.nickName;
+        getApp().globalData.avatar = res.userInfo.avatarUrl;
+      },
+      fail(err) {
+        console.warn('获取用户信息失败:', err);
       },
     });
 
-    // 获取 openid（生产环境应通过后端接口获取）
+    // 获取 openid
     wx.login({
       success(res) {
         if (res.code) {
-          // 生产环境：把 code 发给自己的后端换 openid
-          // 这里简化处理，直接用 code 模拟
-          self.globalData.openid = 'openid_' + res.code;
+          // 简化处理：直接用 code 作为 openid 标识
+          getApp().globalData.openid = 'openid_' + res.code;
         }
+      },
+      fail(err) {
+        console.error('wx.login 失败:', err);
       },
     });
 
@@ -63,6 +67,9 @@ App({
           const me = res.data.users.find(u => u.openid !== self.globalData.openid);
           self.globalData.partner = me || null;
         }
+      },
+      fail(err) {
+        console.error('刷新配对信息失败:', err);
       },
     });
   },

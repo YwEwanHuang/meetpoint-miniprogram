@@ -11,7 +11,7 @@
       "desc": "用于与配对用户共享位置，计算相遇点"
     }
   },
-  "requiredPrivateInfos": ["location"],
+  "requiredPrivateInfos": ["getLocation"],
   "tabBar": {
     "color": "#8E8E93",
     "selectedColor": "#007AFF",

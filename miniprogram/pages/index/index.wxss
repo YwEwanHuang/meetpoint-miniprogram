@@ -228,6 +228,37 @@ page {
   color: var(--tertiary-label);
 }
 
+/* ========== 二维码区域 ========== */
+.qr-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 0.5px solid var(--separator);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-hint {
+  font-size: 13px;
+  color: var(--secondary-label);
+  margin-bottom: 12px;
+}
+
+.qr-image {
+  width: 180px;
+  height: 180px;
+  background: #FFF;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.qr-tip {
+  font-size: 12px;
+  color: var(--tertiary-label);
+  margin-top: 10px;
+  text-align: center;
+}
+
 /* ========== 版本 ========== */
 .version {
   text-align: center;
