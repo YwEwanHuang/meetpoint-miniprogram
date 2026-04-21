@@ -56,15 +56,10 @@
       </view>
 
       <!-- 二维码（让对方扫） -->
-      <view class="qr-section" wx:if="{{qrCodeUrl}}">
+      <view class="qr-section">
         <text class="qr-hint">让朋友扫描以下二维码加入</text>
-        <image
-          class="qr-image"
-          src="{{qrCodeUrl}}"
-          mode="aspectFit"
-          bindtap="previewQRCode"
-        />
-        <text class="qr-tip">或让朋友在首页点击「输入配对码加入」</text>
+        <view class="qr-big-code">{{pairCode}}</view>
+        <text class="qr-tip">或让朋友点击「输入配对码加入」</text>
       </view>
     </view>
 

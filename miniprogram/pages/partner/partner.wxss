@@ -195,6 +195,20 @@ page {
   color: var(--tertiary-label);
 }
 
+/* ========== 配对码预览 ========== */
+.code-preview {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.code-preview-text {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: var(--system-blue);
+  font-family: 'SF Mono', 'Menlo', monospace;
+}
+
 /* ========== 提示 ========== */
 .tips {
   display: flex;

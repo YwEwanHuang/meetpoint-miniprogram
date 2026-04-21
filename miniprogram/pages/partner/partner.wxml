@@ -4,12 +4,12 @@
   <!-- Large Title -->
   <view class="large-title">配对</view>
 
-  <!-- 创建/加入卡片 -->
+  <!-- 加入配对卡片 -->
   <view class="card-section">
     <view class="card join-card">
       <view class="card-header">
         <text class="card-title">加入配对</text>
-        <text class="card-subtitle">扫描对方的小程序码，或输入配对码</text>
+        <text class="card-subtitle">扫描对方的二维码，或手动输入配对码</text>
       </view>
 
       <button class="scan-btn" bindtap="scanQR">
@@ -29,45 +29,28 @@
         maxlength="6"
         placeholder="输入6位配对码"
         placeholder-class="placeholder"
-        value="{{code}}"
+        value="{{inputCode}}"
         bindinput="onCodeInput"
+        bindconfirm="onCodeConfirm"
       />
 
+      <view class="code-preview" wx:if="{{inputCode.length > 0}}">
+        <text class="code-preview-text">{{inputCode.toUpperCase()}}</text>
+      </view>
+
       <button
-        class="btn-primary {{!code ? 'disabled' : ''}}"
-        bindtap="joinPair"
-        disabled="{{!code}}"
+        class="btn-primary"
+        bindtap="onJoinTap"
       >
         加入配对
       </button>
     </view>
   </view>
 
-  <!-- 我的配对码卡片 -->
-  <view class="card-section">
-    <view class="card my-code-card">
-      <view class="card-header">
-        <text class="card-title">我的配对码</text>
-        <text class="card-subtitle">分享给朋友，让他们扫码加入</text>
-      </view>
-
-      <view class="code-display" wx:if="{{myCode}}">
-        <text class="code-text">{{myCode}}</text>
-        <view class="code-actions">
-          <button class="icon-btn" bindtap="copyCode">📋</button>
-          <button class="icon-btn" bindtap="shareCode">📤</button>
-        </view>
-      </view>
-      <view class="no-code" wx:else>
-        <text class="no-code-text">先创建配对才能获得配对码</text>
-      </view>
-    </view>
-  </view>
-
   <!-- 提示 -->
   <view class="tips">
     <text class="tips-icon">💡</text>
-    <text class="tips-text">配对码有效期 24 小时，过期后请重新创建</text>
+    <text class="tips-text">配对码有效期 24 小时</text>
   </view>
 
 </view>
