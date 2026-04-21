@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/map/map",
+    "pages/history/history",
+    "pages/partner/partner",
+    "pages/settings/settings"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于与配对用户共享位置，计算相遇点"
+    }
+  },
+  "requiredPrivateInfos": ["location"],
+  "tabBar": {
+    "color": "#8E8E93",
+    "selectedColor": "#007AFF",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/tab-home.png",
+        "selectedIconPath": "assets/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/map/map",
+        "text": "地图",
+        "iconPath": "assets/tab-map.png",
+        "selectedIconPath": "assets/tab-map-active.png"
+      },
+      {
+        "pagePath": "pages/history/history",
+        "text": "记录",
+        "iconPath": "assets/tab-history.png",
+        "selectedIconPath": "assets/tab-history-active.png"
+      },
+      {
+        "pagePath": "pages/settings/settings",
+        "text": "设置",
+        "iconPath": "assets/tab-settings.png",
+        "selectedIconPath": "assets/tab-settings-active.png"
+      }
+    ]
+  },
+  "window": {
+    "navigationBarBackgroundColor": "#F2F2F7",
+    "navigationBarTitleText": "约见",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F2F2F7"
+  }
+}

@@ -1,0 +1,240 @@
+/* 记录页 - Apple Style CSS */
+
+/* ========== 基础变量 ========== */
+page {
+  --system-blue: #007AFF;
+  --system-green: #34C759;
+  --system-orange: #FF9500;
+  --system-red: #FF3B30;
+  --system-gray: #8E8E93;
+  --system-gray-2: #AEAEB2;
+  --system-gray-3: #C7C7CC;
+  --system-gray-6: #F2F2F7;
+  --system-gray-7: #FFFFFF;
+  --system-gray-8: #F8F8F8;
+  --label: #000000E5;
+  --secondary-label: #00000099;
+  --tertiary-label: #00000048;
+  --separator: #0000001F;
+
+  background: var(--system-gray-6);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+}
+
+/* ========== Large Title ========== */
+.large-title {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.37px;
+  color: var(--label);
+  padding: 0 16px;
+  padding-top: 8px;
+  padding-bottom: 16px;
+}
+
+/* ========== 统计卡片 ========== */
+.stats-card {
+  background: var(--system-gray-7);
+  margin: 0 16px 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--system-blue);
+  letter-spacing: -0.5px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--secondary-label);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--separator);
+}
+
+/* ========== Section ========== */
+.section {
+  padding: 0 16px;
+}
+
+.section-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--secondary-label);
+  text-transform: uppercase;
+  letter-spacing: -0.08px;
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+
+/* ========== 空状态 ========== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 32px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--label);
+  margin-bottom: 8px;
+}
+
+.empty-desc {
+  font-size: 15px;
+  color: var(--secondary-label);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ========== 记录列表 ========== */
+.record-list {
+  background: var(--system-gray-7);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 0.5px solid var(--separator);
+  position: relative;
+}
+
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.record-item::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--system-gray-3);
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.record-left {
+  flex: 1;
+}
+
+.record-date {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--label);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.record-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.record-transport {
+  font-size: 13px;
+  color: var(--secondary-label);
+}
+
+.record-distance {
+  font-size: 13px;
+  color: var(--tertiary-label);
+}
+
+.record-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 24px;
+}
+
+.record-times {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.time-badge {
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'SF Mono', monospace;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.time-badge.me {
+  background: #007AFF1A;
+  color: var(--system-blue);
+}
+
+.time-badge.partner {
+  background: #34C7591A;
+  color: var(--system-green);
+}
+
+.time-sep {
+  color: var(--tertiary-label);
+  font-size: 13px;
+}
+
+.record-status {
+  font-size: 12px;
+  color: var(--secondary-label);
+}
+
+.record-status.scheduled {
+  color: var(--system-orange);
+}
+
+.record-status.completed {
+  color: var(--system-green);
+}
+
+.record-status.cancelled {
+  color: var(--system-gray);
+}
+
+/* ========== 加载状态 ========== */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+}
+
+/* ========== 下拉刷新 ========== */
+.refresh-container {
+  min-height: 200px;
+}

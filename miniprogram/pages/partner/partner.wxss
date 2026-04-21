@@ -1,0 +1,214 @@
+/* 配对页 - Apple Style CSS */
+
+/* ========== 变量 ========== */
+page {
+  --system-blue: #007AFF;
+  --system-green: #34C759;
+  --system-orange: #FF9500;
+  --system-red: #FF3B30;
+  --system-gray: #8E8E93;
+  --system-gray-2: #AEAEB2;
+  --system-gray-3: #C7C7CC;
+  --system-gray-5: #E5E5EA;
+  --system-gray-6: #F2F2F7;
+  --system-gray-7: #FFFFFF;
+  --label: #000000E5;
+  --secondary-label: #00000099;
+  --tertiary-label: #00000048;
+  --separator: #0000001F;
+
+  background: var(--system-gray-6);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+}
+
+/* ========== Large Title ========== */
+.large-title {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--label);
+  padding: 8px 16px 20px;
+}
+
+/* ========== Card Section ========== */
+.card-section {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.card {
+  background: var(--system-gray-7);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.card-header {
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--label);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: var(--secondary-label);
+  display: block;
+}
+
+/* ========== 扫码按钮 ========== */
+.scan-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 50px;
+  background: var(--system-gray-6);
+  border-radius: 10px;
+  border: none;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--system-blue);
+}
+
+.scan-icon {
+  font-size: 20px;
+}
+
+.scan-text {
+  font-weight: 500;
+}
+
+/* ========== 分隔线 ========== */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.divider-line {
+  flex: 1;
+  height: 0.5px;
+  background: var(--separator);
+}
+
+.divider-text {
+  font-size: 13px;
+  color: var(--tertiary-label);
+  flex: none;
+}
+
+/* ========== 配对码输入 ========== */
+.code-input {
+  width: 100%;
+  height: 52px;
+  background: var(--system-gray-6);
+  border-radius: 10px;
+  border: none;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 8px;
+  text-align: center;
+  color: var(--label);
+  margin-bottom: 16px;
+}
+
+.placeholder {
+  color: var(--system-gray-2);
+  letter-spacing: 0;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+/* ========== 主按钮 ========== */
+.btn-primary {
+  width: 100%;
+  height: 50px;
+  background: var(--system-blue);
+  border-radius: 10px;
+  border: none;
+  font-size: 17px;
+  font-weight: 600;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary.disabled {
+  background: var(--system-gray-5);
+  color: var(--system-gray);
+}
+
+.btn-primary:active:not(.disabled) {
+  opacity: 0.8;
+}
+
+/* ========== 我的配对码 ========== */
+.code-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--system-gray-6);
+  border-radius: 10px;
+}
+
+.code-text {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: var(--system-blue);
+  font-family: 'SF Mono', monospace;
+}
+
+.code-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  background: var(--system-gray-7);
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-code {
+  padding: 24px;
+  text-align: center;
+}
+
+.no-code-text {
+  font-size: 15px;
+  color: var(--tertiary-label);
+}
+
+/* ========== 提示 ========== */
+.tips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 16px;
+}
+
+.tips-icon {
+  font-size: 16px;
+}
+
+.tips-text {
+  font-size: 13px;
+  color: var(--secondary-label);
+}

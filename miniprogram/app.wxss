@@ -1,0 +1,124 @@
+/* 全局样式 - Apple HIG Style */
+
+/* ========== CSS Variables ========== */
+page {
+  --system-blue: #007AFF;
+  --system-green: #34C759;
+  --system-orange: #FF9500;
+  --system-red: #FF3B30;
+  --system-purple: #AF52DE;
+  --system-yellow: #FFCC00;
+  --system-gray: #8E8E93;
+  --system-gray-2: #AEAEB2;
+  --system-gray-3: #C7C7CC;
+  --system-gray-5: #E5E5EA;
+  --system-gray-6: #F2F2F7;
+  --system-gray-7: #FFFFFF;
+  --label: #000000E5;
+  --secondary-label: #00000099;
+  --tertiary-label: #00000048;
+  --quaternary-label: #00000029;
+  --separator: #0000001F;
+  --fill: #0000000F;
+
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  background-color: var(--system-gray-6);
+  color: var(--label);
+  font-size: 17px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========== Large Title ========== */
+.large-title {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.37px;
+  color: var(--label);
+}
+
+/* ========== 通用 Card ========== */
+.card {
+  background: var(--system-gray-7);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+/* ========== 按钮 ========== */
+.btn-primary {
+  width: 100%;
+  height: 50px;
+  background: var(--system-blue);
+  border-radius: 10px;
+  border: none;
+  font-size: 17px;
+  font-weight: 600;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary:active {
+  opacity: 0.8;
+}
+
+.btn-primary.disabled {
+  background: var(--system-gray-5);
+  color: var(--system-gray);
+}
+
+.btn-secondary {
+  background: var(--system-gray-6);
+  color: var(--system-blue);
+  border: none;
+  border-radius: 10px;
+  height: 50px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.btn-text {
+  background: transparent;
+  border: none;
+  color: var(--system-red);
+  font-size: 17px;
+  font-weight: 400;
+  padding: 12px 0;
+}
+
+/* ========== 输入框 ========== */
+.input {
+  background: var(--system-gray-6);
+  border: none;
+  border-radius: 10px;
+  height: 52px;
+  padding: 0 16px;
+  font-size: 17px;
+  color: var(--label);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+}
+
+/* ========== 分隔线 ========== */
+.divider {
+  height: 0.5px;
+  background: var(--separator);
+  margin: 16px 0;
+}
+
+/* ========== Section Header ========== */
+.section-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--secondary-label);
+  text-transform: uppercase;
+  letter-spacing: -0.08px;
+  padding: 0 16px;
+  margin-bottom: 6px;
+}

@@ -1,0 +1,32 @@
+<!-- 设置页 -->
+<view class="container">
+
+  <view class="card">
+    <text class="title">交通偏好</text>
+    <text class="subtitle">选择默认的出行方式</text>
+
+    <view class="transport-options">
+      <view
+        wx:for="{{transportModes}}"
+        wx:key="mode"
+        class="option-item {{defaultMode === item.mode ? 'selected' : ''}}"
+        bindtap="selectMode"
+        data-mode="{{item.mode}}"
+      >
+        <text class="option-icon">{{item.icon}}</text>
+        <text class="option-label">{{item.label}}</text>
+        <text class="option-check" wx:if="{{defaultMode === item.mode}}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card danger-zone">
+    <text class="title danger">⚠️ 危险操作</text>
+    <button class="btn-danger" bindtap="unpair">解除配对</button>
+  </view>
+
+  <view class="version-info">
+    <text>约见 MeetPoint v1.0.0</text>
+  </view>
+
+</view>

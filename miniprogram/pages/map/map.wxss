@@ -1,0 +1,206 @@
+/* 地图页样式 */
+
+.map {
+  width: 100%;
+  height: 55vh;
+  position: relative;
+}
+
+/* 位置标签 */
+.location-tag {
+  position: absolute;
+  top: 24rpx;
+  padding: 12rpx 20rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24rpx;
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.location-tag .tag-icon {
+  margin-right: 8rpx;
+}
+
+.my-tag {
+  left: 24rpx;
+  border-left: 4rpx solid #3B82F6;
+}
+
+.partner-tag {
+  right: 24rpx;
+  border-left: 4rpx solid #10B981;
+}
+
+/* 刷新按钮 */
+.refresh-btn {
+  position: absolute;
+  bottom: calc(45vh + 24rpx);
+  right: 24rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: #FFF;
+  border: 2rpx solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.12);
+  z-index: 10;
+}
+
+/* 底部面板 */
+.bottom-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #FFF;
+  border-radius: 24rpx 24rpx 0 0;
+  box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, 0.08);
+  padding: 24rpx;
+  transition: all 0.3s ease;
+  z-index: 20;
+}
+
+/* 交通方式tabs */
+.transport-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 24rpx;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #64748B;
+  transition: all 0.2s;
+}
+
+.tab-item.active {
+  background: #EFF6FF;
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+.tab-item .tab-label {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+}
+
+/* 路线信息 */
+.route-info {
+  background: #F8FAFC;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.route-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.route-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.route-item.partner-route {
+  border-left: 2rpx solid #E2E8F0;
+  padding-left: 24rpx;
+}
+
+.route-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.route-distance {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1E293B;
+}
+
+.route-time {
+  font-size: 24rpx;
+  color: #64748B;
+}
+
+/* 相遇点信息 */
+.meeting-info {
+  background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.meeting-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1E293B;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.meeting-address {
+  font-size: 28rpx;
+  color: #3B82F6;
+  display: block;
+}
+
+.meeting-note {
+  font-size: 24rpx;
+  color: #10B981;
+  display: block;
+  margin-top: 8rpx;
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.btn-route, .btn-meeting {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-route {
+  background: #3B82F6;
+  color: #FFF;
+}
+
+.btn-meeting {
+  background: #10B981;
+  color: #FFF;
+}
+
+.btn-route.disabled, .btn-meeting.disabled {
+  background: #CBD5E1;
+  color: #94A3B8;
+}
+
+/* 收起展开提示 */
+.panel-toggle {
+  text-align: center;
+  font-size: 24rpx;
+  color: #94A3B8;
+  padding: 8rpx 0;
+}

@@ -1,0 +1,81 @@
+<!-- 首页 - Apple Style -->
+<view class="page">
+
+  <!-- Large Title -->
+  <view class="large-title">约见</view>
+
+  <!-- 未配对状态 -->
+  <block wx:if="{{!hasPair}}">
+    <view class="hero-card">
+      <view class="hero-icon">📍</view>
+      <text class="hero-title">找到最好的见面点</text>
+      <text class="hero-desc">与重要的人，共享位置，计算最优相遇地点</text>
+    </view>
+
+    <view class="action-section">
+      <button class="btn-primary" bindtap="createPair">
+        创建配对
+      </button>
+      <button class="btn-secondary" bindtap="scanQR">
+        📷 扫码加入
+      </button>
+    </view>
+  </block>
+
+  <!-- 已配对状态 -->
+  <block wx:else>
+    <!-- 配对状态卡片 -->
+    <view class="pair-card">
+      <view class="pair-status">
+        <view class="status-dot active"></view>
+        <text class="status-label">已配对</text>
+      </view>
+
+      <view class="partner-row" wx:if="{{partner}}">
+        <view class="partner-avatar">👤</view>
+        <view class="partner-info">
+          <text class="partner-name">{{partner.nickname || '对方'}}</text>
+          <text class="partner-location" wx:if="{{partner.lat}}">
+            📍 位置已更新
+          </text>
+          <text class="partner-location waiting" wx:else>
+            ⏳ 等待对方位置...
+          </text>
+        </view>
+      </view>
+
+      <view class="divider"></view>
+
+      <view class="pair-code-row">
+        <view class="pair-code-info">
+          <text class="pair-code-label">配对码</text>
+          <text class="pair-code-value">{{pairCode}}</text>
+        </view>
+        <button class="copy-btn" bindtap="copyCode">复制</button>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-section paired">
+      <button class="btn-primary large" bindtap="goToMap">
+        🗺️ 进入地图
+      </button>
+      <button class="btn-text" bindtap="showUnpairConfirm">
+        解除配对
+      </button>
+    </view>
+
+    <!-- 最近记录预览 -->
+    <view class="recent-card" wx:if="{{recentRecord}}">
+      <text class="recent-title">最近记录</text>
+      <view class="recent-item">
+        <text class="recent-date">{{recentRecord.date}}</text>
+        <text class="recent-meta">{{recentRecord.transport}} · {{recentRecord.timeDiff}}</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- 版本信息 -->
+  <view class="version">MeetPoint v1.0</view>
+
+</view>
