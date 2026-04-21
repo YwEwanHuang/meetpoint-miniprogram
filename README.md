@@ -52,7 +52,14 @@ node index.js
 - `QQMAP_KEY`：腾讯位置服务 API Key（[申请地址](https://lbs.qq.com/)）
 - `PORT`：服务端口（默认 3000）
 
-### 2. 配置小程序
+### 2. 配置环境变量
+
+```bash
+cp server/.env.example server/.env
+# 然后编辑 server/.env，填入真实 Key
+```
+
+### 3. 配置小程序
 
 修改 `miniprogram/app.js` 中的配置：
 

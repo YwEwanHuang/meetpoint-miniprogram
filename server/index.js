@@ -2,6 +2,8 @@
  * 约见 MeetPoint - 后端服务
  */
 
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');

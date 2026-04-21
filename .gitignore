@@ -12,9 +12,10 @@ yarn-error.log
 server/data/
 *.local.json
 
-# 环境变量
+# 环境变量（包含真实 API Key，禁止上传）
 .env
 .env.local
+.env.production
 .env.*.local
 
 # macOS
