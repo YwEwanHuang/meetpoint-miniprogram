@@ -15,7 +15,7 @@ App({
 
     // 服务器地址（开发时用局域网IP，生产时换成实际域名）
     // 请修改为你的实际服务器地址
-    apiBase: 'https://39.105.107.5/api',
+    apiBase: 'YOUR_SERVER_API_BASE',
 
     // 地图 key（需在微信公众平台申请腾讯地图插件）
     qqmapKey: 'YOUR_QQMAP_KEY',
