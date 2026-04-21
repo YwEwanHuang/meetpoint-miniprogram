@@ -265,6 +265,13 @@ page {
   margin: 12px 0;
 }
 
+.qr-loading {
+  font-size: 14px;
+  color: var(--system-blue);
+  text-align: center;
+  margin-top: 12px;
+}
+
 .qr-tip {
   font-size: 12px;
   color: var(--tertiary-label);

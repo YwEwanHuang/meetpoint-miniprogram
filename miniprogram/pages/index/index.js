@@ -10,6 +10,7 @@ Page({
     partner: null,
     recentRecord: null,
     notifCount: 0,
+    qrCodeUrl: '',
   },
 
   onShow() {
@@ -28,9 +29,40 @@ Page({
     if (hasPair) {
       this.refreshLocation();
       this.loadRecentRecord();
+      this.loadQRCode();
     } else {
       this.setData({ qrCodeUrl: '' });
     }
+  },
+
+  // 加载二维码图片
+  loadQRCode() {
+    if (!app.globalData.pairCode) return;
+    if (this.data.qrCodeUrl) return; // 已加载过
+
+    const qrUrl = `meetpoint://pair?code=${app.globalData.pairCode}`;
+    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrUrl)}`;
+
+    wx.downloadFile({
+      url: qrApiUrl,
+      success: (res) => {
+        if (res.statusCode === 200 && res.tempFilePath) {
+          this.setData({ qrCodeUrl: res.tempFilePath });
+        }
+      },
+      fail: () => {
+        console.error('二维码加载失败');
+      },
+    });
+  },
+
+  // 预览二维码
+  previewQR() {
+    if (!this.data.qrCodeUrl) return;
+    wx.previewImage({
+      urls: [this.data.qrCodeUrl],
+      current: this.data.qrCodeUrl,
+    });
   },
 
   loadNotifications() {
@@ -67,6 +99,7 @@ Page({
           app.savePairInfo(res.data.pairId, res.data.code, null);
           this.setData({ hasPair: true, pairCode: res.data.code });
           wx.showToast({ title: '配对已创建', icon: 'success' });
+          setTimeout(() => this.loadQRCode(), 300);
         } else {
           wx.showToast({ title: res.data.error || '创建失败', icon: 'none' });
         }

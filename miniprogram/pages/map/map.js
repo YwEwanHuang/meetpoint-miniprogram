@@ -187,6 +187,9 @@ Page({
         if (res.data.meetingPoint) {
           this.setData({ routeInfo: res.data, panelExpanded: true });
           this.drawRoute(res.data);
+          if (res.data.note) {
+            wx.showToast({ title: res.data.note, icon: 'none', duration: 3000 });
+          }
         } else {
           wx.showToast({ title: '路线计算失败', icon: 'none' });
         }
@@ -223,6 +226,9 @@ Page({
           this.setData({ routeInfo: mp, meetingPoint: mp, panelExpanded: true });
           this.updateMarkers();
           this.drawRoute(mp);
+          if (res.data.note) {
+            wx.showToast({ title: res.data.note, icon: 'none', duration: 3000 });
+          }
         } else {
           wx.showToast({ title: '计算失败', icon: 'none' });
         }

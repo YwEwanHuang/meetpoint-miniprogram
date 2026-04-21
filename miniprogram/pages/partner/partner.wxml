@@ -27,11 +27,11 @@
         class="code-input"
         type="text"
         maxlength="6"
+        confirm-type="done"
         placeholder="输入6位配对码"
         placeholder-class="placeholder"
         value="{{inputCode}}"
         bindinput="onCodeInput"
-        bindconfirm="onCodeConfirm"
       />
 
       <view class="code-preview" wx:if="{{inputCode.length > 0}}">
@@ -41,6 +41,7 @@
       <button
         class="btn-primary"
         bindtap="onJoinTap"
+        data-code="{{inputCode}}"
       >
         加入配对
       </button>

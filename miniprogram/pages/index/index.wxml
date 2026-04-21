@@ -58,8 +58,15 @@
       <!-- 二维码（让对方扫） -->
       <view class="qr-section">
         <text class="qr-hint">让朋友扫描以下二维码加入</text>
-        <view class="qr-big-code">{{pairCode}}</view>
-        <text class="qr-tip">或让朋友点击「输入配对码加入」</text>
+        <image
+          wx:if="{{qrCodeUrl}}"
+          class="qr-image"
+          src="{{qrCodeUrl}}"
+          mode="aspectFit"
+          bindtap="previewQR"
+        />
+        <text wx:if="{{qrCodeUrl}}" class="qr-tip">点击二维码可放大</text>
+        <text wx:if="{{!qrCodeUrl}}" class="qr-loading" bindtap="loadQRCode">点击加载二维码</text>
       </view>
     </view>
 

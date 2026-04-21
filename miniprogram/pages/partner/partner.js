@@ -20,27 +20,18 @@ Page({
     }
   },
 
+  // 每次输入都实时更新 data
   onCodeInput(e) {
-    const val = (e.detail.value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+    const raw = e.detail.value || '';
+    const val = raw.toUpperCase().replace(/[^A-Z0-9]/g, '');
     this.setData({ inputCode: val });
   },
 
-  onCodeConfirm(e) {
-    const val = (e.detail.value || '').trim().toUpperCase();
-    if (val.length === 6) {
-      this.doJoin(val);
-    }
-  },
-
-  // 点击按钮加入
+  // 点击按钮加入（直接读取 data）
   onJoinTap() {
-    const code = this.data.inputCode.trim();
-    if (!code) {
-      wx.showToast({ title: '请输入配对码', icon: 'none' });
-      return;
-    }
-    if (code.length !== 6) {
-      wx.showToast({ title: '配对码为6位', icon: 'none' });
+    const code = this.data.inputCode;
+    if (!code || code.length !== 6) {
+      wx.showToast({ title: '请输入6位配对码', icon: 'none' });
       return;
     }
     this.doJoin(code);
@@ -54,7 +45,6 @@ Page({
         const raw = res.result || '';
         let code = raw.trim().toUpperCase();
 
-        // 解析 URL 格式 meetpoint://pair?code=ABC123
         try {
           const url = new URL(raw);
           if (url.hostname === 'pair' || raw.startsWith('meetpoint://')) {
@@ -97,18 +87,27 @@ Page({
       },
       success: (res) => {
         wx.hideLoading();
-        if (res.data && res.data.pairId) {
-          app.savePairInfo(res.data.pairId, code, res.data.partner);
+        const statusCode = res.statusCode;
+        const body = res.data;
+
+        if (statusCode === 200 && body && body.pairId) {
+          app.savePairInfo(body.pairId, code, body.partner);
           wx.showToast({ title: '加入成功', icon: 'success' });
           setTimeout(() => wx.switchTab({ url: '/pages/index/index' }), 1500);
+        } else if (statusCode === 404 || statusCode === 410) {
+          wx.showToast({ title: body?.error || '配对码无效或已过期', icon: 'none' });
         } else {
-          const msg = res.data ? res.data.error : '加入失败';
-          wx.showToast({ title: msg, icon: 'none' });
+          wx.showToast({ title: body?.error || '加入失败', icon: 'none' });
         }
       },
-      fail: () => {
+      fail: (err) => {
         wx.hideLoading();
-        wx.showToast({ title: '网络错误', icon: 'none' });
+        const errMsg = err?.errMsg || '';
+        if (errMsg.includes('timeout')) {
+          wx.showToast({ title: '请求超时，请检查网络', icon: 'none' });
+        } else {
+          wx.showToast({ title: '网络错误', icon: 'none' });
+        }
       },
     });
   },
