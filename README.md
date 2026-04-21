@@ -79,7 +79,7 @@ globalData: {
 
 1. 打开微信开发者工具
 2. 项目目录选择 `meetpoint-miniprogram/miniprogram`
-3. 填入 AppID：`wx07e8b6ea5ce98e30`
+3. 填入 AppID：在微信公众平台 → 开发管理 → 开发设置中获取
 4. 确认导入
 
 ### 4. 配置地图 Key
