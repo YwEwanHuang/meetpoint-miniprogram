@@ -1,7 +1,7 @@
 # ============================================================
 # MeetPoint 服务部署指南
-# 服务器: 39.105.107.5
-# 域名: meetpoint.ewanandalina.top
+# 服务器: <你的服务器IP>
+# 域名: <你的域名>
 # ============================================================
 
 ## 一、服务器环境确认
@@ -97,7 +97,7 @@ pm2 logs meetpoint
 sudo apt install -y certbot python3-certbot-nginx
 
 # 申请 SSL 证书（域名需已解析到服务器）
-sudo certbot --nginx -d meetpoint.ewanandalina.top
+sudo certbot --nginx -d <你的域名>
 ```
 
 创建 Nginx 配置文件：
@@ -110,7 +110,7 @@ sudo nano /etc/nginx/sites-available/meetpoint
 ```nginx
 server {
     listen 80;
-    server_name meetpoint.ewanandalina.top;
+    server_name <你的域名>;
 
     # 强制跳转 HTTPS
     return 301 https://$server_name$request_uri;
@@ -118,10 +118,10 @@ server {
 
 server {
     listen 443 ssl;
-    server_name meetpoint.ewanandalina.top;
+    server_name <你的域名>;
 
-    ssl_certificate /etc/letsencrypt/live/meetpoint.ewanandalina.top/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/meetpoint.ewanandalina.top/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/<你的域名>/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/<你的域名>/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
 
     # API 反向代理
@@ -155,7 +155,7 @@ sudo ufw allow 22
 sudo ufw enable
 
 # 检查端口是否通
-curl -I https://meetpoint.ewanandalina.top
+curl -I https://<你的域名>
 ```
 
 ---
@@ -186,7 +186,7 @@ cd server && pm2 restart meetpoint
 修改 `miniprogram/app.js`：
 
 ```javascript
-apiBase: 'https://meetpoint.ewanandalina.top/api',
+apiBase: 'https://<你的域名>/api',
 qqmapKey: '<你的腾讯位置服务Key>',
 ```
 
@@ -198,7 +198,7 @@ qqmapKey: '<你的腾讯位置服务Key>',
 
 1. **服务器域名** → 添加 `request 合法域名`：
    ```
-   https://meetpoint.ewanandalina.top
+   https://<你的域名>
    ```
 
 2. 开发阶段可勾选"不校验合法域名"绕过

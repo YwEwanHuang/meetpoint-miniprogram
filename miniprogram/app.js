@@ -15,7 +15,7 @@ App({
 
     // 服务器地址
     // 请修改为你的实际服务器地址
-    apiBase: 'https://meetpoint.ewanandalina.top/api',
+    apiBase: 'https://你的服务器域名/api',
 
     // 地图 key（需在微信公众平台申请腾讯地图插件）
     qqmapKey: '', // 请替换为你的腾讯位置服务 Key（https://lbs.qq.com/）
