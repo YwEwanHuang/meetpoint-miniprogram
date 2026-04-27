@@ -95,15 +95,19 @@ function save() {
   // 取消pending的保存
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
-    try {
-      const dir = path.dirname(DATA_FILE);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      const data = JSON.stringify(Array.from(pairs.entries()), null, 2);
-      fs.writeFileSync(DATA_FILE, data, 'utf8');
-    } catch (e) {
-      console.error('[Store] 保存失败:', e.message);
-    }
+    saveSync();
   }, SAVE_DEBOUNCE_MS);
+}
+
+function saveSync() {
+  try {
+    const dir = path.dirname(DATA_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    const data = JSON.stringify(Array.from(pairs.entries()), null, 2);
+    fs.writeFileSync(DATA_FILE, data, 'utf8');
+  } catch (e) {
+    console.error('[Store] 保存失败:', e.message);
+  }
 }
 
 function load() {
@@ -134,5 +138,5 @@ function cleanup() {
 
 module.exports = {
   size, get, getByCode, findByOpenid, set, deletePair, getAll,
-  addUser, updateUserLocation, save, load, cleanup,
+  addUser, updateUserLocation, save, saveSync, load, cleanup,
 };

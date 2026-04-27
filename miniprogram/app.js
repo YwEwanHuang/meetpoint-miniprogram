@@ -22,30 +22,19 @@ App({
   },
 
   onLaunch() {
-    // 获取用户信息（新版，已废弃 wx.getUserProfile）
-    wx.getUserInfo({
-      lang: 'zh_CN',
-      success(res) {
-        getApp().globalData.nickname = res.userInfo.nickName;
-        getApp().globalData.avatar = res.userInfo.avatarUrl;
-      },
-      fail(err) {
-        console.warn('获取用户信息失败:', err);
-      },
-    });
+    // 获取持久化用户标识（不存在则生成）
+    let openid = wx.getStorageSync('openid');
+    if (!openid) {
+      openid = 'u_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 8);
+      wx.setStorageSync('openid', openid);
+    }
+    this.globalData.openid = openid;
 
-    // 获取 openid
-    wx.login({
-      success(res) {
-        if (res.code) {
-          // 简化处理：直接用 code 作为 openid 标识
-          getApp().globalData.openid = 'openid_' + res.code;
-        }
-      },
-      fail(err) {
-        console.error('wx.login 失败:', err);
-      },
-    });
+    // 恢复交通偏好
+    const savedMode = wx.getStorageSync('transportMode');
+    if (savedMode) {
+      this.globalData.transportMode = savedMode;
+    }
 
     // 尝试恢复本地配对状态
     const saved = wx.getStorageSync('pairInfo');
@@ -54,6 +43,19 @@ App({
       this.globalData.pairCode = saved.pairCode;
       this.globalData.partner = saved.partner;
     }
+
+    // 获取用户昵称和头像
+    wx.getUserInfo({
+      lang: 'zh_CN',
+      success(res) {
+        const app = getApp();
+        app.globalData.nickname = res.userInfo.nickName || ('用户' + openid.slice(-4));
+        app.globalData.avatar = res.userInfo.avatarUrl;
+      },
+      fail() {
+        getApp().globalData.nickname = '用户' + openid.slice(-4);
+      },
+    });
   },
 
   // 刷新配对信息

@@ -2,6 +2,7 @@
  * 地图页逻辑
  */
 const app = getApp();
+const api = require('../../utils/api');
 
 const TRANSPORT_MODES = [
   { mode: 'driving', label: '驾车', icon: '🚗' },
@@ -38,6 +39,7 @@ Page({
       return;
     }
     this.refreshMyLocation();
+    this.refreshPartnerLocation();
   },
 
   onShow() {
@@ -70,48 +72,28 @@ Page({
   },
 
   // 上报位置到服务器
-  reportMyLocation(loc, showError) {
+  reportMyLocation(loc) {
     if (!app.globalData.pairId || !app.globalData.openid) return;
-
-    wx.request({
-      url: `${app.globalData.apiBase}/location/update`,
-      method: 'POST',
-      data: {
-        pairId: app.globalData.pairId,
-        openid: app.globalData.openid,
-        lat: loc.latitude,
-        lng: loc.longitude,
-      },
-      fail: (err) => {
-        if (showError) {
-          wx.showToast({ title: '位置上报失败', icon: 'none' });
-        }
-      },
-    });
+    api.updateLocation(loc.latitude, loc.longitude).catch(() => {});
   },
 
   // 刷新对方位置
   refreshPartnerLocation() {
     if (!app.globalData.pairId) return;
-
-    wx.request({
-      url: `${app.globalData.apiBase}/location/${app.globalData.pairId}`,
-      success: (res) => {
-        if (res.data && res.data.users) {
-          const partner = res.data.users.find(
-            (u) => u.openid !== app.globalData.openid
-          );
-          if (partner && partner.lat != null && partner.lng != null) {
-            this.setData({
-              partnerLocation: { latitude: partner.lat, longitude: partner.lng },
-            });
-            this.updateMarkers();
-          }
+    api.getLocations(app.globalData.pairId).then(data => {
+      if (data && data.users) {
+        const partner = data.users.find(
+          (u) => u.openid !== app.globalData.openid
+        );
+        if (partner && partner.lat != null && partner.lng != null) {
+          this.setData({
+            partnerLocation: { latitude: partner.lat, longitude: partner.lng },
+          });
+          this.updateMarkers();
         }
-      },
-      fail: (err) => {
-        console.error('刷新对方位置失败:', err);
-      },
+      }
+    }).catch(err => {
+      console.error('刷新对方位置失败:', err);
     });
   },
 
@@ -160,48 +142,11 @@ Page({
     const mode = e.currentTarget.dataset.mode;
     this.setData({ currentMode: mode });
     if (this.data.partnerLocation.latitude) {
-      this.calculateRoute();
+      this.calculateMeetingPoint();
     }
   },
 
-  // 计算路线
-  calculateRoute() {
-    const { myLocation, partnerLocation, currentMode } = this.data;
-    if (!partnerLocation.latitude) {
-      wx.showToast({ title: '对方位置不可用', icon: 'none' });
-      return;
-    }
-
-    wx.showLoading({ title: '计算路线...' });
-
-    wx.request({
-      url: `${app.globalData.apiBase}/meeting/calculate`,
-      method: 'POST',
-      data: {
-        pairId: app.globalData.pairId,
-        openid: app.globalData.openid,
-        transportMode: currentMode,
-      },
-      success: (res) => {
-        wx.hideLoading();
-        if (res.data.meetingPoint) {
-          this.setData({ routeInfo: res.data, panelExpanded: true });
-          this.drawRoute(res.data);
-          if (res.data.note) {
-            wx.showToast({ title: res.data.note, icon: 'none', duration: 3000 });
-          }
-        } else {
-          wx.showToast({ title: '路线计算失败', icon: 'none' });
-        }
-      },
-      fail: (err) => {
-        wx.hideLoading();
-        wx.showToast({ title: '网络错误', icon: 'none' });
-      },
-    });
-  },
-
-  // 计算相遇点
+  // 计算相遇点和路线
   calculateMeetingPoint() {
     const { partnerLocation, currentMode } = this.data;
     if (!partnerLocation.latitude) {
@@ -211,33 +156,35 @@ Page({
 
     wx.showLoading({ title: '寻找最佳相遇点...' });
 
-    wx.request({
-      url: `${app.globalData.apiBase}/meeting/calculate`,
-      method: 'POST',
-      data: {
-        pairId: app.globalData.pairId,
-        openid: app.globalData.openid,
-        transportMode: currentMode,
-      },
-      success: (res) => {
-        wx.hideLoading();
-        if (res.data.meetingPoint) {
-          const mp = res.data;
-          this.setData({ routeInfo: mp, meetingPoint: mp, panelExpanded: true });
-          this.updateMarkers();
-          this.drawRoute(mp);
-          if (res.data.note) {
-            wx.showToast({ title: res.data.note, icon: 'none', duration: 3000 });
-          }
-        } else {
-          wx.showToast({ title: '计算失败', icon: 'none' });
+    api.calculateMeeting(currentMode).then(data => {
+      wx.hideLoading();
+      if (data.meetingPoint) {
+        const info = this.formatRouteInfo(data);
+        this.setData({ routeInfo: info, meetingPoint: data, panelExpanded: true });
+        this.updateMarkers();
+        this.drawRoute(data);
+        if (data.note) {
+          wx.showToast({ title: data.note, icon: 'none', duration: 3000 });
         }
-      },
-      fail: () => {
-        wx.hideLoading();
-        wx.showToast({ title: '网络错误', icon: 'none' });
-      },
+      } else {
+        wx.showToast({ title: '计算失败', icon: 'none' });
+      }
+    }).catch(() => {
+      wx.hideLoading();
     });
+  },
+
+  // 格式化路线信息供 WXML 展示
+  formatRouteInfo(data) {
+    const distText = (m) => m > 1000 ? `${(m/1000).toFixed(1)}公里` : `${m}米`;
+    const timeText = (min) => min < 60 ? `${min}分钟` : `${Math.floor(min/60)}小时${min%60}分钟`;
+    return {
+      myDistance: distText(data.routeFromMe?.distance || 0),
+      myTime: timeText(data.timeFromMe || 0),
+      partnerDistance: distText(data.routeFromPartner?.distance || 0),
+      partnerTime: timeText(data.timeFromPartner || 0),
+      transportLabel: data.transportLabel || '',
+    };
   },
 
   // 绘制路线

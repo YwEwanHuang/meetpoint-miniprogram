@@ -77,6 +77,20 @@ function destinationPoint(lat, lng, bearingDeg, distanceM) {
 }
 
 /**
+ * 带超时的 fetch 封装（默认 10 秒）
+ */
+async function fetchWithTimeout(url, timeoutMs = 10000) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    return res;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+/**
  * 调用腾讯地图 Direction API 获取路线信息
  */
 async function getRoute(origin, destination, mode) {
@@ -88,7 +102,7 @@ async function getRoute(origin, destination, mode) {
     `&output=json`;
 
   try {
-    const res = await fetch(url);
+    const res = await fetchWithTimeout(url);
     if (!res.ok) return null;
     const data = await res.json();
 
@@ -113,7 +127,7 @@ async function getRoute(origin, destination, mode) {
 async function reverseGeocode(lat, lng) {
   try {
     const url = `https://apis.map.qq.com/geocoder/v1/?key=${QQMAP_KEY}&location=${lat},${lng}&get_poi=0`;
-    const res = await fetch(url);
+    const res = await fetchWithTimeout(url);
     const data = await res.json();
     if (data.status === 0 && data.result) {
       return data.result.address || data.result.formatted_addresses?.recommend || '';

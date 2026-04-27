@@ -1,22 +1,6 @@
 /* 记录页 - Apple Style CSS */
 
-/* ========== 基础变量 ========== */
 page {
-  --system-blue: #007AFF;
-  --system-green: #34C759;
-  --system-orange: #FF9500;
-  --system-red: #FF3B30;
-  --system-gray: #8E8E93;
-  --system-gray-2: #AEAEB2;
-  --system-gray-3: #C7C7CC;
-  --system-gray-6: #F2F2F7;
-  --system-gray-7: #FFFFFF;
-  --system-gray-8: #F8F8F8;
-  --label: #000000E5;
-  --secondary-label: #00000099;
-  --tertiary-label: #00000048;
-  --separator: #0000001F;
-
   background: var(--system-gray-6);
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
 }
@@ -126,22 +110,10 @@ page {
   align-items: center;
   padding: 14px 16px;
   border-bottom: 0.5px solid var(--separator);
-  position: relative;
 }
 
 .record-item:last-child {
   border-bottom: none;
-}
-
-.record-item::after {
-  content: '';
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--system-gray-3);
-  font-size: 20px;
-  font-weight: 300;
 }
 
 .record-left {
@@ -176,7 +148,6 @@ page {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-right: 24px;
 }
 
 .record-times {

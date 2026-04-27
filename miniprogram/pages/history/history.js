@@ -3,6 +3,7 @@
  */
 
 const app = getApp();
+const api = require('../../utils/api');
 
 Page({
   data: {
@@ -27,19 +28,15 @@ Page({
 
     wx.showLoading({ title: '加载中...' });
 
-    wx.request({
-      url: `${app.globalData.apiBase}/records/${app.globalData.pairId}`,
-      success: (res) => {
-        wx.hideLoading();
-        if (res.data && res.data.records) {
-          this.computeStats(res.data.records);
-          this.setData({ records: res.data.records, loading: false });
-        }
-      },
-      fail: () => {
-        wx.hideLoading();
-        this.setData({ loading: false });
-      },
+    api.getRecords(app.globalData.pairId).then(data => {
+      wx.hideLoading();
+      if (data && data.records) {
+        this.computeStats(data.records);
+        this.setData({ records: data.records, loading: false });
+      }
+    }).catch(() => {
+      wx.hideLoading();
+      this.setData({ loading: false });
     });
   },
 
@@ -82,7 +79,6 @@ Page({
   },
 
   onRecordTap(e) {
-    const { id } = e.currentTarget.dataset;
-    wx.navigateTo({ url: `/pages/history/detail?id=${id}` });
+    wx.showToast({ title: '查看详情功能即将上线', icon: 'none' });
   },
 });

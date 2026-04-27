@@ -34,12 +34,17 @@ router.post('/update', (req, res) => {
 });
 
 // ---------------------------------------------------------------------------
-// GET /api/location/:pairId
-// 获取配对双方当前位置
+// GET /api/location/:pairId?openid=xxx
+// 获取配对双方当前位置（需验证属于该配对）
 // ---------------------------------------------------------------------------
 router.get('/:pairId', (req, res) => {
   const pair = store.get(req.params.pairId);
   if (!pair) return res.status(404).json({ error: '配对不存在' });
+
+  const { openid } = req.query;
+  if (!openid || !pair.users.some(u => u.openid === openid)) {
+    return res.status(403).json({ error: '无权访问该配对位置' });
+  }
 
   res.json({
     users: pair.users.map(u => ({

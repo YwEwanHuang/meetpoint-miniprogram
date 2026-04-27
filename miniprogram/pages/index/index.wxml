@@ -70,6 +70,17 @@
       </view>
     </view>
 
+    <!-- 最近记录预览 -->
+    <view class="recent-card" wx:if="{{recentRecord}}">
+      <text class="recent-title">最近一次见面</text>
+      <view class="recent-item">
+        <text class="recent-date">{{recentRecord.date}}</text>
+        <view class="recent-meta">
+          <text>{{recentRecord.transport}} · {{recentRecord.timeDiff}}</text>
+        </view>
+      </view>
+    </view>
+
     <!-- 操作按钮 -->
     <view class="action-section paired">
       <button class="btn-primary large" bindtap="goToMap">

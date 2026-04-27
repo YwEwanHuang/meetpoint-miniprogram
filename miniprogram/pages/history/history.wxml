@@ -40,8 +40,6 @@
         class="record-item"
         wx:for="{{records}}"
         wx:key="id"
-        bindtap="onRecordTap"
-        data-id="{{item.id}}"
       >
         <view class="record-left">
           <text class="record-date">{{formatDate(item.createdAt)}}</text>
@@ -58,7 +56,6 @@
           </view>
           <text class="record-status {{item.status}}">{{item.statusText}}</text>
         </view>
-        <view class="record-arrow">›</view>
       </view>
     </view>
 

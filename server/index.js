@@ -58,9 +58,13 @@ setInterval(() => {
   checkExpiringPairs();
 }, 60 * 60 * 1000);
 
-process.on('exit', () => store.save());
+process.on('exit', () => store.saveSync());
 process.on('SIGINT', () => {
-  store.save();
+  store.saveSync();
+  process.exit();
+});
+process.on('SIGTERM', () => {
+  store.saveSync();
   process.exit();
 });
 

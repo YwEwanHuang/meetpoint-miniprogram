@@ -1,30 +1,42 @@
-<!-- 设置页 -->
-<view class="container">
+<!-- 设置页 - Apple HIG Style -->
+<view class="page">
 
-  <view class="card">
-    <text class="title">交通偏好</text>
-    <text class="subtitle">选择默认的出行方式</text>
+  <!-- Large Title -->
+  <view class="large-title">设置</view>
 
-    <view class="transport-options">
-      <view
-        wx:for="{{transportModes}}"
-        wx:key="mode"
-        class="option-item {{defaultMode === item.mode ? 'selected' : ''}}"
-        bindtap="selectMode"
-        data-mode="{{item.mode}}"
-      >
-        <text class="option-icon">{{item.icon}}</text>
-        <text class="option-label">{{item.label}}</text>
-        <text class="option-check" wx:if="{{defaultMode === item.mode}}">✓</text>
+  <!-- 交通偏好 -->
+  <view class="section">
+    <view class="section-header">交通偏好</view>
+    <view class="card list-card">
+      <view class="transport-options">
+        <view
+          wx:for="{{transportModes}}"
+          wx:key="mode"
+          class="option-item {{defaultMode === item.mode ? 'selected' : ''}}"
+          bindtap="selectMode"
+          data-mode="{{item.mode}}"
+        >
+          <text class="option-icon">{{item.icon}}</text>
+          <text class="option-label">{{item.label}}</text>
+          <text class="option-check" wx:if="{{defaultMode === item.mode}}">✓</text>
+        </view>
       </view>
     </view>
   </view>
 
-  <view class="card danger-zone">
-    <text class="title danger">⚠️ 危险操作</text>
-    <button class="btn-danger" bindtap="unpair">解除配对</button>
+  <!-- 危险操作 -->
+  <view class="section danger-section">
+    <view class="section-header">危险操作</view>
+    <view class="danger-card">
+      <view class="danger-header">
+        <text class="danger-title">⚠️ 解除配对</text>
+        <text class="danger-desc">解除后双方位置将不再共享</text>
+      </view>
+      <button class="btn-unpair" bindtap="unpair">解除配对</button>
+    </view>
   </view>
 
+  <!-- 版本信息 -->
   <view class="version-info">
     <text>约见 MeetPoint v1.0.0</text>
   </view>

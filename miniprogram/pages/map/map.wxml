@@ -51,19 +51,22 @@
 
     <!-- 路线信息（展开后） -->
     <view class="route-info" wx:if="{{routeInfo}}">
+      <view class="route-header">
+        <text class="route-transport">{{routeInfo.transportLabel}}</text>
+      </view>
       <view class="route-row">
         <view class="route-item">
-          <text class="route-icon">📍</text>
+          <text class="route-icon">🚶</text>
           <view class="route-detail">
-            <text class="route-distance">{{routeInfo.distance}}</text>
-            <text class="route-time">约 {{routeInfo.duration}} 分钟</text>
+            <text class="route-distance">{{routeInfo.myDistance}}</text>
+            <text class="route-time">约 {{routeInfo.myTime}}</text>
           </view>
         </view>
         <view class="route-item partner-route">
-          <text class="route-icon">🎯</text>
+          <text class="route-icon">👤</text>
           <view class="route-detail">
             <text class="route-distance">{{routeInfo.partnerDistance}}</text>
-            <text class="route-time">对方约 {{routeInfo.partnerDuration}} 分钟</text>
+            <text class="route-time">对方约 {{routeInfo.partnerTime}}</text>
           </view>
         </view>
       </view>
@@ -82,13 +85,6 @@
 
     <!-- 操作按钮 -->
     <view class="action-buttons">
-      <button
-        class="btn-route {{!partnerLocation.latitude ? 'disabled' : ''}}"
-        bindtap="calculateRoute"
-        disabled="{{!partnerLocation.latitude}}"
-      >
-        🛣️ 计算路线
-      </button>
       <button
         class="btn-meeting {{!partnerLocation.latitude ? 'disabled' : ''}}"
         bindtap="calculateMeetingPoint"

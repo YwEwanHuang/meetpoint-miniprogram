@@ -1,9 +1,9 @@
 /**
  * 配对相关 API
- * POST /api/pair/create  - 创建配对
- * POST /api/pair/join    - 加入配对
- * DELETE /api/pair/:id   - 解除配对
- * GET  /api/pair/code/:code - 验证配对码
+ * POST   /api/pair/create   - 创建配对
+ * POST   /api/pair/join     - 加入配对
+ * DELETE /api/pair/:id      - 解除配对
+ * GET    /api/pair/:id      - 获取配对信息
  */
 
 const express = require('express');
@@ -130,11 +130,15 @@ router.post('/join', (req, res) => {
 });
 
 // ---------------------------------------------------------------------------
-// DELETE /api/pair/:id
+// DELETE /api/pair/:id?openid=xxx
 // ---------------------------------------------------------------------------
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  const { openid } = req.body;
+  const { openid } = req.query;
+
+  if (!openid) {
+    return res.status(400).json({ error: '缺少 openid' });
+  }
 
   const pair = store.get(id);
   if (!pair) {

@@ -1,0 +1,160 @@
+/* 设置页 - Apple HIG Style */
+
+page {
+  background: var(--system-gray-6);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+}
+
+.page {
+  padding-bottom: 24px;
+}
+
+/* ========== Large Title ========== */
+.large-title {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.37px;
+  color: var(--label);
+  padding: 8px 16px 20px;
+}
+
+/* ========== Section ========== */
+.section {
+  margin-bottom: 20px;
+}
+
+.section-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--secondary-label);
+  text-transform: uppercase;
+  letter-spacing: -0.08px;
+  padding: 0 16px;
+  margin-bottom: 6px;
+}
+
+/* ========== Card ========== */
+.card {
+  background: var(--system-gray-7);
+  border-radius: 12px;
+  padding: 0;
+}
+
+.card.list-card {
+  margin: 0 16px;
+}
+
+/* ========== List Item ========== */
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 0.5px solid var(--separator);
+  min-height: 44px;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.list-item-left {
+  flex: 1;
+}
+
+.list-item-label {
+  font-size: 17px;
+  color: var(--label);
+}
+
+.list-item-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--secondary-label);
+  font-size: 17px;
+}
+
+/* ========== Transport Options ========== */
+.transport-options {
+  padding: 8px 0;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 0.5px solid var(--separator);
+}
+
+.option-item:last-child {
+  border-bottom: none;
+}
+
+.option-icon {
+  font-size: 20px;
+  margin-right: 12px;
+  width: 28px;
+  text-align: center;
+}
+
+.option-label {
+  flex: 1;
+  font-size: 17px;
+  color: var(--label);
+}
+
+.option-check {
+  color: var(--system-blue);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* ========== Danger Zone ========== */
+.danger-section {
+  padding: 0 16px;
+}
+
+.danger-card {
+  background: var(--system-gray-7);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.danger-header {
+  padding: 16px 20px 8px;
+}
+
+.danger-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--system-red);
+  display: block;
+}
+
+.danger-desc {
+  font-size: 13px;
+  color: var(--secondary-label);
+  display: block;
+  margin-top: 2px;
+}
+
+.btn-unpair {
+  width: 100%;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  font-size: 17px;
+  color: var(--system-red);
+  font-weight: 400;
+  text-align: center;
+  border-top: 0.5px solid var(--separator);
+}
+
+/* ========== Version ========== */
+.version-info {
+  text-align: center;
+  font-size: 13px;
+  color: var(--tertiary-label);
+  padding: 24px 0;
+}

@@ -103,6 +103,16 @@
   margin-bottom: 24rpx;
 }
 
+.route-header {
+  margin-bottom: 16rpx;
+}
+
+.route-transport {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #3B82F6;
+}
+
 .route-row {
   display: flex;
   justify-content: space-between;

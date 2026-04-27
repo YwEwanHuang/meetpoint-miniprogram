@@ -2,6 +2,7 @@
  * 设置页逻辑
  */
 const app = getApp();
+const api = require('../../utils/api');
 
 const TRANSPORT_MODES = [
   { mode: 'driving', label: '驾车', icon: '🚗' },
@@ -39,20 +40,14 @@ Page({
           return;
         }
 
-        wx.request({
-          url: `${app.globalData.apiBase}/pair/${app.globalData.pairId}`,
-          method: 'DELETE',
-          data: { openid: app.globalData.openid },
-          success: () => {
-            app.clearPairInfo();
-            wx.showToast({ title: '已解除', icon: 'success' });
-            setTimeout(() => {
-              wx.switchTab({ url: '/pages/index/index' });
-            }, 1500);
-          },
-          fail: () => {
-            wx.showToast({ title: '解除失败', icon: 'none' });
-          },
+        api.deletePair(app.globalData.pairId).then(() => {
+          app.clearPairInfo();
+          wx.showToast({ title: '已解除', icon: 'success' });
+          setTimeout(() => {
+            wx.switchTab({ url: '/pages/index/index' });
+          }, 1500);
+        }).catch(() => {
+          wx.showToast({ title: '解除失败', icon: 'none' });
         });
       },
     });
