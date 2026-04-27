@@ -57,8 +57,8 @@ cd /var/www/meetpoint/server
 # 创建 .env 文件（填入真实 Key）
 nano .env
 # 内容：
-# QQMAP_KEY=XG2BZ-LM6LJ-KHWFF-X4NFV-L7XLT-YSFMR
-# SERVERCHAN_KEY=SCT340638TqXeVkdl042GmA8uhWLGSDRQM
+# QQMAP_KEY=<你的腾讯位置服务Key>
+# SERVERCHAN_KEY=<你的Server酱Key（可选）>
 # PORT=3000
 
 # 安装依赖
@@ -187,7 +187,7 @@ cd server && pm2 restart meetpoint
 
 ```javascript
 apiBase: 'https://meetpoint.ewanandalina.top/api',
-qqmapKey: 'XG2BZ-LM6LJ-KHWFF-X4NFV-L7XLT-YSFMR',
+qqmapKey: '<你的腾讯位置服务Key>',
 ```
 
 ---

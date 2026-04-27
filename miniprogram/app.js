@@ -18,7 +18,7 @@ App({
     apiBase: 'https://meetpoint.ewanandalina.top/api',
 
     // 地图 key（需在微信公众平台申请腾讯地图插件）
-    qqmapKey: 'XG2BZ-LM6LJ-KHWFF-X4NFV-L7XLT-YSFMR',
+    qqmapKey: '', // 请替换为你的腾讯位置服务 Key（https://lbs.qq.com/）
   },
 
   onLaunch() {
