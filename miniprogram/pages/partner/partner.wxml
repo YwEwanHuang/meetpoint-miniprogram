@@ -1,0 +1,57 @@
+<!-- 配对页 - Apple HIG Style -->
+<view class="page">
+
+  <!-- Large Title -->
+  <view class="large-title">配对</view>
+
+  <!-- 加入配对 -->
+  <view class="card-section">
+    <view class="card join-card">
+      <view class="card-header">
+        <text class="card-title">加入配对</text>
+        <text class="card-subtitle">扫描对方的二维码，或手动输入配对码</text>
+      </view>
+
+      <button class="scan-btn" bindtap="scanQR">
+        <view class="scan-icon">📷</view>
+        <text class="scan-text">扫码加入</text>
+      </button>
+
+      <view class="divider">
+        <view class="divider-line"></view>
+        <text class="divider-text">或</text>
+        <view class="divider-line"></view>
+      </view>
+
+      <input
+        class="code-input"
+        type="text"
+        maxlength="6"
+        confirm-type="done"
+        placeholder="输入6位配对码"
+        placeholder-class="placeholder"
+        value="{{inputCode}}"
+        bindinput="onCodeInput"
+        focus="{{inputCode.length === 0}}"
+      />
+
+      <view class="code-preview" wx:if="{{inputCode.length > 0}}">
+        <text wx:for="{{inputCode.split('')}}" wx:for-item="c" wx:key="*this" class="code-char">{{c}}</text>
+      </view>
+
+      <button
+        class="btn-primary {{inputCode.length !== 6 ? 'disabled' : ''}}"
+        bindtap="onJoinTap"
+        disabled="{{inputCode.length !== 6}}"
+      >
+        加入配对
+      </button>
+    </view>
+  </view>
+
+  <!-- 提示信息 -->
+  <view class="tips">
+    <text class="tips-text">配对码有效期 24 小时，过期后需重新创建</text>
+  </view>
+
+</view>

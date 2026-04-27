@@ -1,0 +1,116 @@
+<!-- 地图页：位置共享 + 路线 + 相遇点 -->
+<view class="container">
+
+  <!-- 地图区域 -->
+  <map
+    id="mainMap"
+    class="map"
+    latitude="{{myLocation.latitude}}"
+    longitude="{{myLocation.longitude}}"
+    scale="{{scale}}"
+    show-location
+    show-compass="{{showCompass}}"
+    enable-zoom="{{enableZoom}}"
+    enable-scroll="{{enableScroll}}"
+    enable-rotate="{{enableRotate}}"
+    markers="{{markers}}"
+    polylines="{{polylines}}"
+    include-points="{{includePoints}}"
+    bindtap="onMapTap"
+  ></map>
+
+  <!-- 地图顶部操作栏 -->
+  <view class="map-toolbar">
+    <view class="location-tag my-tag">
+      <text class="tag-dot dot-blue"></text>
+      <text class="tag-text">我的位置</text>
+    </view>
+
+    <view class="location-tag partner-tag" wx:if="{{partnerLocation.latitude}}">
+      <text class="tag-dot dot-green"></text>
+      <text class="tag-text">对方位置</text>
+    </view>
+  </view>
+
+  <!-- 刷新位置按钮 -->
+  <button class="location-refresh-btn" bindtap="refreshMyLocation">
+    <text class="refresh-icon">↻</text>
+  </button>
+
+  <!-- 连续定位状态指示 -->
+  <view class="loc-status {{isLocationUpdating ? 'active' : ''}}" wx:if="{{isLocationUpdating}}">
+    <view class="loc-pulse"></view>
+    <text class="loc-status-text">实时定位中</text>
+  </view>
+
+  <!-- 底部信息面板 -->
+  <view class="bottom-panel {{panelExpanded ? 'expanded' : ''}}">
+
+    <!-- 交通方式选择 -->
+    <view class="transport-tabs">
+      <view
+        wx:for="{{transportModes}}"
+        wx:key="mode"
+        class="tab-item {{currentMode === item.mode ? 'active' : ''}}"
+        bindtap="switchMode"
+        data-mode="{{item.mode}}"
+      >
+        <text class="tab-icon">{{item.icon}}</text>
+        <text class="tab-label">{{item.label}}</text>
+      </view>
+    </view>
+
+    <!-- 路线信息 -->
+    <view class="route-info" wx:if="{{routeInfo}}">
+      <view class="route-row">
+        <view class="route-item">
+          <text class="route-label">我方</text>
+          <text class="route-value">{{routeInfo.duration}}分钟</text>
+          <text class="route-sub">{{routeInfo.distance}}</text>
+        </view>
+        <view class="route-divider"></view>
+        <view class="route-item">
+          <text class="route-label">对方</text>
+          <text class="route-value">{{routeInfo.partnerDuration}}分钟</text>
+          <text class="route-sub">{{routeInfo.partnerDistance}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 相遇点信息 -->
+    <view class="meeting-info" wx:if="{{meetingPoint}}">
+      <view class="meeting-header">
+        <text class="meeting-icon">🤝</text>
+        <view class="meeting-details">
+          <text class="meeting-title">推荐相遇点</text>
+          <text class="meeting-desc">时间差仅 {{meetingPoint.timeDiff}} 分钟</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button
+        class="btn-action btn-route {{!partnerLocation.latitude ? 'disabled' : ''}}"
+        bindtap="calculateRoute"
+        disabled="{{!partnerLocation.latitude}}"
+      >
+        计算路线
+      </button>
+      <button
+        class="btn-action btn-meeting {{!partnerLocation.latitude ? 'disabled' : ''}}"
+        bindtap="calculateMeetingPoint"
+        disabled="{{!partnerLocation.latitude}}"
+      >
+        推荐见面点
+      </button>
+    </view>
+
+  </view>
+
+  <!-- 展开/收起手柄 -->
+  <view class="panel-handle" bindtap="togglePanel">
+    <view class="handle-bar"></view>
+  </view>
+
+</view>

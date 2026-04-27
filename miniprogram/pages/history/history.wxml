@@ -1,0 +1,67 @@
+<!-- 记录页 - Apple Style -->
+<view class="page">
+
+  <!-- Large Title -->
+  <view class="large-title">记录</view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-card" wx:if="{{records.length > 0}}">
+    <view class="stat-item">
+      <text class="stat-value">{{stats.thisMonth}}</text>
+      <text class="stat-label">本月见面</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{stats.totalMeetings}}</text>
+      <text class="stat-label">累计次数</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{stats.avgTimeDiff}}′</text>
+      <text class="stat-label">平均时差</text>
+    </view>
+  </view>
+
+  <!-- 列表区域 -->
+  <view class="section">
+
+    <view class="section-header">历史记录</view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{!loading && records.length === 0}}">
+      <text class="empty-icon">📋</text>
+      <text class="empty-title">暂无记录</text>
+      <text class="empty-desc">在地图页计算相遇点后，将自动生成记录</text>
+    </view>
+
+    <!-- 记录列表 -->
+    <view class="record-list" wx:else>
+      <view
+        class="record-item"
+        wx:for="{{records}}"
+        wx:key="id"
+        bindtap="onRecordTap"
+        data-id="{{item.id}}"
+      >
+        <view class="record-left">
+          <text class="record-date">{{formatDate(item.createdAt)}}</text>
+          <view class="record-meta">
+            <text class="record-transport">{{transportIcon(item.transportMode)}} {{item.transportModeText}}</text>
+            <text class="record-distance">相距{{item.distanceText}}</text>
+          </view>
+        </view>
+        <view class="record-right">
+          <view class="record-times">
+            <text class="time-badge me">{{item.timeFromMe}}′</text>
+            <text class="time-sep">|</text>
+            <text class="time-badge partner">{{item.timeFromPartner}}′</text>
+          </view>
+          <text class="record-status {{item.status}}">{{item.statusText}}</text>
+        </view>
+        <view class="record-arrow">›</view>
+      </view>
+    </view>
+
+  </view>
+
+</view>

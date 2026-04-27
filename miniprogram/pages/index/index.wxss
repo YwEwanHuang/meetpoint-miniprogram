@@ -1,0 +1,303 @@
+/* 首页 - Apple HIG Style */
+
+page {
+  --system-blue: #007AFF;
+  --system-green: #34C759;
+  --system-orange: #FF9500;
+  --system-red: #FF3B30;
+  --system-gray: #8E8E93;
+  --system-gray-2: #AEAEB2;
+  --system-gray-3: #C7C7CC;
+  --system-gray-5: #E5E5EA;
+  --system-gray-6: #F2F2F7;
+  --system-gray-7: #FFFFFF;
+  --label: #000000E5;
+  --secondary-label: #00000099;
+  --tertiary-label: #00000048;
+  --separator: #0000001F;
+
+  background: var(--system-gray-6);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+}
+
+/* ========== Large Title ========== */
+.large-title {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--label);
+  padding: 8px 16px 20px;
+  letter-spacing: 0.37px;
+}
+
+/* ========== 英雄卡片（未配对） ========== */
+.hero-card {
+  background: var(--system-gray-7);
+  margin: 0 16px 24px;
+  border-radius: 16px;
+  padding: 36px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-icon-img {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+
+.hero-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--label);
+  margin-bottom: 8px;
+}
+
+.hero-desc {
+  font-size: 15px;
+  color: var(--secondary-label);
+  line-height: 1.5;
+}
+
+/* ========== 操作区域 ========== */
+.action-section {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.action-section.paired {
+  margin-bottom: 16px;
+  padding: 0 16px;
+}
+
+/* ========== 配对卡片（已配对） ========== */
+.pair-card {
+  background: var(--system-gray-7);
+  margin: 0 16px 16px;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.pair-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--system-gray-3);
+}
+
+.status-dot.active {
+  background: var(--system-green);
+}
+
+.status-label {
+  font-size: 13px;
+  color: var(--secondary-label);
+  font-weight: 500;
+}
+
+/* ---------- Partner ---------- */
+.partner-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.partner-avatar {
+  width: 44px;
+  height: 44px;
+  background: var(--system-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.partner-info {
+  flex: 1;
+}
+
+.partner-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--label);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.partner-location {
+  font-size: 13px;
+  color: var(--system-green);
+  display: block;
+}
+
+.partner-location.waiting {
+  color: var(--system-orange);
+}
+
+/* ---------- 分隔线 ---------- */
+.divider {
+  height: 0.5px;
+  background: var(--separator);
+  margin: 16px 0;
+}
+
+/* ---------- 配对码 ---------- */
+.pair-code-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pair-code-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.pair-code-label {
+  font-size: 12px;
+  color: var(--tertiary-label);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pair-code-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--system-blue);
+  font-family: 'SF Mono', 'Menlo', monospace;
+}
+
+.btn-copy {
+  font-size: 15px;
+  color: var(--system-blue);
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+/* ========== 大按钮 ========== */
+.btn-primary.large {
+  height: 56px;
+  font-size: 18px;
+  border-radius: 14px;
+}
+
+/* ========== 最近记录 ========== */
+.recent-card {
+  background: var(--system-gray-7);
+  margin: 0 16px;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.recent-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--secondary-label);
+  text-transform: uppercase;
+  letter-spacing: -0.08px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.recent-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recent-date {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--label);
+}
+
+.recent-meta {
+  font-size: 14px;
+  color: var(--tertiary-label);
+}
+
+/* ========== 二维码区域 ========== */
+.qr-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 0.5px solid var(--separator);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-hint {
+  font-size: 13px;
+  color: var(--secondary-label);
+  margin-bottom: 12px;
+}
+
+.qr-big-code {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: 8px;
+  color: var(--system-blue);
+  font-family: 'SF Mono', 'Menlo', monospace;
+  background: var(--system-gray-6);
+  border-radius: 12px;
+  padding: 20px 32px;
+  text-align: center;
+  margin: 8px 0;
+  user-select: text;
+}
+
+.btn-share-code {
+  font-size: 15px;
+  color: var(--system-blue);
+  background: transparent;
+  border: none;
+  font-weight: 500;
+  padding: 8px 0;
+}
+
+.qr-tip {
+  font-size: 12px;
+  color: var(--tertiary-label);
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* ========== 解除配对 ========== */
+.btn-text-danger {
+  background: transparent;
+  border: none;
+  color: var(--system-red);
+  font-size: 17px;
+  font-weight: 400;
+  padding: 12px 0;
+}
+
+/* ========== 版本 ========== */
+.version {
+  text-align: center;
+  font-size: 12px;
+  color: var(--tertiary-label);
+  padding: 24px 0;
+}

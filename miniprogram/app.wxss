@@ -1,0 +1,308 @@
+/* ===== 全局样式 - Apple HIG (Human Interface Guidelines) ===== */
+
+/* ========== Design Tokens ========== */
+page {
+  /* iOS System Colors */
+  --system-blue: #007AFF;
+  --system-green: #34C759;
+  --system-orange: #FF9500;
+  --system-red: #FF3B30;
+  --system-purple: #AF52DE;
+  --system-yellow: #FFCC00;
+  --system-teal: #5AC8FA;
+  --system-pink: #FF2D55;
+
+  /* iOS Gray Scale */
+  --system-gray: #8E8E93;
+  --system-gray-2: #AEAEB2;
+  --system-gray-3: #C7C7CC;
+  --system-gray-4: #D1D1D6;
+  --system-gray-5: #E5E5EA;
+  --system-gray-6: #F2F2F7;
+  --system-gray-7: #FFFFFF;
+
+  /* iOS Label Colors */
+  --label: #000000E5;
+  --secondary-label: #00000099;
+  --tertiary-label: #00000048;
+  --quaternary-label: #00000029;
+  --separator: #0000001F;
+  --fill: #0000000F;
+
+  /* iOS Separator */
+  --opaque-separator: #C6C6C8;
+
+  /* Typography */
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  background-color: var(--system-gray-6);
+  color: var(--label);
+  font-size: 17px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+}
+
+/* ========== Typography Scale ========== */
+
+.large-title {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.37px;
+  color: var(--label);
+}
+
+.title-1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.34px;
+  color: var(--label);
+}
+
+.title-2 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.26px;
+  color: var(--label);
+}
+
+.headline {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.43px;
+  color: var(--label);
+}
+
+.body {
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.43px;
+  color: var(--label);
+}
+
+.callout {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+  color: var(--secondary-label);
+}
+
+.subhead {
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -0.24px;
+  color: var(--secondary-label);
+}
+
+.caption {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--secondary-label);
+}
+
+/* ========== Cards ========== */
+
+.card {
+  background: var(--system-gray-7);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* ========== iOS Grouped List ========== */
+
+.grouped-list {
+  background: var(--system-gray-7);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 16px;
+}
+
+.grouped-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  min-height: 44px;
+  border-bottom: 0.5px solid var(--separator);
+}
+
+.grouped-list-item:last-child {
+  border-bottom: none;
+}
+
+.grouped-list-label {
+  font-size: 17px;
+  color: var(--label);
+}
+
+.grouped-list-value {
+  font-size: 17px;
+  color: var(--secondary-label);
+}
+
+/* ========== Section Header ========== */
+
+.section-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--secondary-label);
+  text-transform: uppercase;
+  letter-spacing: -0.08px;
+  padding: 0 16px;
+  margin-bottom: 6px;
+  margin-top: 20px;
+}
+
+/* ========== Buttons ========== */
+
+.btn-primary {
+  width: 100%;
+  height: 50px;
+  background: var(--system-blue);
+  border-radius: 10px;
+  border: none;
+  font-size: 17px;
+  font-weight: 600;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s;
+}
+
+.btn-primary:active {
+  opacity: 0.8;
+}
+
+.btn-primary.disabled {
+  background: var(--system-gray-5);
+  color: var(--system-gray);
+}
+
+.btn-secondary {
+  width: 100%;
+  height: 50px;
+  background: var(--system-gray-6);
+  border-radius: 10px;
+  border: none;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--system-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-secondary:active {
+  opacity: 0.7;
+}
+
+.btn-text {
+  background: transparent;
+  border: none;
+  color: var(--system-blue);
+  font-size: 17px;
+  font-weight: 400;
+  padding: 12px 0;
+}
+
+.btn-destructive {
+  background: transparent;
+  border: none;
+  color: var(--system-red);
+  font-size: 17px;
+  font-weight: 400;
+  padding: 12px 0;
+}
+
+/* ========== Input ========== */
+
+.input-field {
+  background: var(--system-gray-6);
+  border: none;
+  border-radius: 10px;
+  height: 52px;
+  padding: 0 16px;
+  font-size: 17px;
+  color: var(--label);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-field:focus {
+  outline: none;
+}
+
+/* ========== Divider ========== */
+
+.divider {
+  height: 0.5px;
+  background: var(--separator);
+  margin: 16px 0;
+}
+
+/* ========== Toast / HUD ========== */
+
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.78);
+  border-radius: 14px;
+  padding: 20px 28px;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 999;
+  text-align: center;
+  max-width: 240px;
+}
+
+/* ========== Empty State ========== */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 32px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+.empty-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--label);
+  margin-bottom: 8px;
+}
+
+.empty-desc {
+  font-size: 15px;
+  color: var(--secondary-label);
+  line-height: 1.4;
+}
+
+/* ========== Utility ========== */
+
+.page {
+  min-height: 100vh;
+  padding-bottom: 20px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

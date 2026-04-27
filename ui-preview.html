@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>约见 MeetPoint - UI Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1c1c1e;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 40px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  }
+
+  .device {
+    width: 375px;
+    background: #F2F2F7;
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    position: relative;
+  }
+
+  .device-header {
+    background: #F2F2F7;
+    padding: 12px 20px 4px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #000;
+    font-weight: 600;
+  }
+
+  .device-notch {
+    height: 30px;
+    background: #F2F2F7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .notch {
+    width: 150px;
+    height: 24px;
+    background: #1c1c1e;
+    border-radius: 0 0 16px 16px;
+  }
+
+  .device-name {
+    text-align: center;
+    font-size: 12px;
+    color: #8E8E93;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .screen {
+    padding: 0 0 20px;
+    min-height: 700px;
+  }
+
+  /* ===== Tab Bar ===== */
+  .tab-bar {
+    display: flex;
+    background: #FFFFFF;
+    border-top: 0.5px solid rgba(0,0,0,0.1);
+    padding: 6px 0 12px;
+    margin-top: 0;
+  }
+
+  .tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    color: #8E8E93;
+  }
+
+  .tab-item.active { color: #007AFF; }
+  .tab-icon { font-size: 22px; }
+  .tab-label { font-size: 10px; }
+
+  /* ===== Apple HIG Tokens ===== */
+  .page {
+    --system-blue: #007AFF;
+    --system-green: #34C759;
+    --system-orange: #FF9500;
+    --system-red: #FF3B30;
+    --system-gray: #8E8E93;
+    --system-gray-6: #F2F2F7;
+    --system-gray-7: #FFFFFF;
+    --label: #000000E5;
+    --secondary-label: #00000099;
+    --tertiary-label: #00000048;
+    --separator: #0000001F;
+  }
+
+  /* === Page 1: Index (Unpaired) === */
+  .page-index-unpaired { background: #F2F2F7; }
+
+  .large-title {
+    font-size: 34px;
+    font-weight: 700;
+    color: #000;
+    padding: 8px 16px 20px;
+    letter-spacing: 0.37px;
+  }
+
+  .hero-card {
+    background: #FFF;
+    margin: 0 16px 24px;
+    border-radius: 16px;
+    padding: 36px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .hero-icon-img {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 16px;
+    background: #F2F2F7;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #8E8E93;
+  }
+
+  .hero-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 8px;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    color: #00000099;
+    line-height: 1.5;
+  }
+
+  .action-section {
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    height: 50px;
+    background: #007AFF;
+    border-radius: 10px;
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .btn-secondary {
+    width: 100%;
+    height: 50px;
+    background: #F2F2F7;
+    border-radius: 10px;
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+    color: #007AFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .version {
+    text-align: center;
+    font-size: 12px;
+    color: #00000048;
+    padding: 24px 0;
+  }
+
+  /* === Index (Paired) === */
+  .pair-card {
+    background: #FFF;
+    margin: 0 16px 16px;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .pair-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #C7C7CC;
+  }
+
+  .status-dot.active { background: #34C759; }
+
+  .status-label {
+    font-size: 13px;
+    color: #00000099;
+    font-weight: 500;
+  }
+
+  .partner-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .partner-avatar {
+    width: 44px;
+    height: 44px;
+    background: #007AFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFF;
+    flex-shrink: 0;
+  }
+
+  .partner-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: #000;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .partner-location { font-size: 13px; color: #34C759; }
+  .partner-location.waiting { color: #FF9500; }
+
+  .divider-line-h {
+    height: 0.5px;
+    background: rgba(0,0,0,0.12);
+    margin: 16px 0;
+  }
+
+  .pair-code-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pair-code-label {
+    font-size: 12px;
+    color: #00000048;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .pair-code-value {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #007AFF;
+    font-family: 'SF Mono', 'Menlo', monospace;
+  }
+
+  .btn-copy {
+    font-size: 15px;
+    color: #007AFF;
+    background: transparent;
+    border: none;
+    padding: 8px 12px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .qr-section {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 0.5px solid rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .qr-hint {
+    font-size: 13px;
+    color: #00000099;
+    margin-bottom: 12px;
+  }
+
+  .qr-big-code {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 8px;
+    color: #007AFF;
+    font-family: 'SF Mono', 'Menlo', monospace;
+    background: #F2F2F7;
+    border-radius: 12px;
+    padding: 20px 32px;
+    text-align: center;
+    margin: 8px 0;
+  }
+
+  .btn-primary.large {
+    height: 56px;
+    font-size: 18px;
+    border-radius: 14px;
+  }
+
+  .btn-text-danger {
+    background: transparent;
+    border: none;
+    color: #FF3B30;
+    font-size: 17px;
+    font-weight: 400;
+    padding: 12px 0;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    width: 100%;
+  }
+
+  /* === Page 2: Map === */
+  .page-map { background: #F2F2F7; }
+
+  .map-placeholder {
+    width: 100%;
+    height: 55vh;
+    background: #E8EDF2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #8E8E93;
+    font-size: 14px;
+    position: relative;
+  }
+
+  .map-grid {
+    width: 100%;
+    height: 100%;
+    background-image:
+      linear-gradient(rgba(142,142,147,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(142,142,147,0.08) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .map-toolbar {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .location-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    font-size: 13px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+
+  .tag-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .dot-blue { background: #007AFF; }
+  .dot-green { background: #34C759; }
+
+  .tag-text { font-weight: 500; }
+
+  .refresh-icon-map {
+    position: absolute;
+    bottom: 20px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #FFF;
+    border: 0.5px solid #E5E5EA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #007AFF;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    cursor: pointer;
+  }
+
+  .bottom-panel {
+    background: #FFF;
+    border-radius: 20px 20px 0 0;
+    padding: 16px 20px 24px;
+    margin-top: -20px;
+    position: relative;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+  }
+
+  .transport-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .tab-transport {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    border-radius: 10px;
+    font-size: 20px;
+    color: #00000099;
+    background: transparent;
+  }
+
+  .tab-active {
+    background: #F2F2F7;
+    color: #007AFF;
+    font-weight: 600;
+  }
+
+  .tab-transport-label {
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .route-info {
+    background: #F2F2F7;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+
+  .route-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .route-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .route-label { font-size: 13px; color: #00000099; font-weight: 500; }
+  .route-value { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  .route-sub { font-size: 12px; color: #00000048; }
+  .route-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(0,0,0,0.12);
+    margin: 0 16px;
+  }
+
+  .meeting-info { margin-bottom: 16px; }
+
+  .meeting-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #FFF8E1;
+    border-radius: 10px;
+  }
+
+  .meeting-title { font-size: 15px; font-weight: 600; }
+  .meeting-desc { font-size: 13px; color: #FF9500; margin-top: 2px; }
+
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-action {
+    flex: 1;
+    height: 48px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-route { background: #007AFF; color: #FFF; }
+  .btn-meeting { background: #34C759; color: #FFF; }
+
+  .panel-handle {
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  .handle-bar {
+    width: 36px;
+    height: 4px;
+    background: #C7C7CC;
+    border-radius: 2px;
+    margin: 0 auto;
+  }
+
+  /* === Page 3: Partner === */
+  .card-section { padding: 0 16px; }
+
+  .card {
+    background: #FFF;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .card-title {
+    font-size: 17px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .card-subtitle {
+    font-size: 13px;
+    color: #00000099;
+    display: block;
+  }
+
+  .scan-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 50px;
+    background: #F2F2F7;
+    border-radius: 10px;
+    border: none;
+    font-size: 17px;
+    font-weight: 500;
+    color: #007AFF;
+    margin: 16px 0;
+    cursor: pointer;
+  }
+
+  .scan-icon { font-size: 20px; }
+
+  .divider-line {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .hr { flex: 1; height: 0.5px; background: rgba(0,0,0,0.12); }
+  .divider-text { font-size: 13px; color: #00000048; }
+
+  .code-input {
+    width: 100%;
+    height: 52px;
+    background: #F2F2F7;
+    border-radius: 10px;
+    border: none;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 8px;
+    text-align: center;
+    color: #000;
+    margin-bottom: 16px;
+    outline: none;
+  }
+
+  .code-input::placeholder {
+    color: #AEAEB2;
+    letter-spacing: 0;
+    font-size: 17px;
+    font-weight: 400;
+  }
+
+  .code-preview {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .code-char {
+    width: 36px;
+    height: 44px;
+    background: #F2F2F7;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #007AFF;
+    font-family: 'SF Mono', monospace;
+  }
+
+  .btn-primary.disabled {
+    background: #E5E5EA;
+    color: #8E8E93;
+  }
+
+  .tips {
+    text-align: center;
+    padding: 20px 16px;
+  }
+
+  .tips-text {
+    font-size: 13px;
+    color: #00000099;
+  }
+
+  /* === Page 4: History === */
+  .stats-card {
+    background: #FFF;
+    margin: 0 16px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+
+  .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #007AFF;
+    letter-spacing: -0.5px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: #00000099;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-divider-v {
+    width: 1px;
+    height: 40px;
+    background: rgba(0,0,0,0.12);
+  }
+
+  .section-header {
+    font-size: 13px;
+    font-weight: 600;
+    color: #00000099;
+    text-transform: uppercase;
+    letter-spacing: -0.08px;
+    padding: 0 16px;
+    margin-bottom: 8px;
+  }
+
+  .record-list {
+    background: #FFF;
+    margin: 0 16px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .record-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.12);
+  }
+
+  .record-item:last-child { border-bottom: none; }
+
+  .record-left { flex: 1; }
+
+  .record-date {
+    font-size: 17px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .record-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .record-transport {
+    font-size: 13px;
+    color: #00000099;
+  }
+  .record-status.scheduled { color: #FF9500; }
+  .record-status.completed { color: #34C759; }
+
+  .record-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .record-times {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .time-badge {
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'SF Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  .time-badge.me {
+    background: rgba(0,122,255,0.1);
+    color: #007AFF;
+  }
+
+  .time-badge.partner {
+    background: rgba(52,199,89,0.1);
+    color: #34C759;
+  }
+
+  .empty-state {
+    background: #FFF;
+    margin: 0 16px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 32px;
+    text-align: center;
+  }
+
+  .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+  .empty-title { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+  .empty-desc { font-size: 15px; color: #00000099; line-height: 1.4; }
+
+  /* === Page 5: Settings === */
+  .settings-list {
+    background: #FFF;
+    margin: 0 16px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .settings-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.12);
+  }
+
+  .settings-item:last-child { border-bottom: none; }
+
+  .settings-item-icon { font-size: 20px; margin-right: 12px; width: 28px; text-align: center; }
+  .settings-item-label { flex: 1; font-size: 17px; }
+  .settings-item-check { color: #007AFF; font-weight: 600; }
+
+  .danger-card {
+    background: #FFF;
+    margin: 0 16px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .danger-header {
+    padding: 16px 20px 8px;
+  }
+
+  .danger-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #FF3B30;
+    display: block;
+  }
+
+  .danger-desc {
+    font-size: 13px;
+    color: #00000099;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .btn-unpair {
+    width: 100%;
+    padding: 16px 20px;
+    background: transparent;
+    border: none;
+    font-size: 17px;
+    color: #FF3B30;
+    text-align: center;
+    border-top: 0.5px solid rgba(0,0,0,0.12);
+    cursor: pointer;
+  }
+
+  .loc-pulse {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #34C759;
+    animation: pulse 2s infinite;
+    display: inline-block;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .device-label {
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 8px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== Page 1: Index (Unpaired) ====== -->
+<div class="device">
+  <div class="device-label">首页 · 未配对</div>
+  <div class="device-notch"><div class="notch"></div></div>
+  <div class="screen page-index-unpaired">
+    <div class="large-title">约见</div>
+    <div class="hero-card">
+      <div class="hero-icon-img">📍</div>
+      <div class="hero-title">找到最好的见面点</div>
+      <div class="hero-desc">与重要的人共享位置，智能计算最优相遇地点</div>
+    </div>
+    <div class="action-section">
+      <button class="btn-primary">创建配对</button>
+      <button class="btn-secondary">输入配对码加入</button>
+    </div>
+    <div style="text-align:center;font-size:12px;color:#00000048;padding:24px 0;">MeetPoint v1.0</div>
+  </div>
+</div>
+
+<!-- ====== Page 1b: Index (Paired) ====== -->
+<div class="device">
+  <div class="device-label">首页 · 已配对</div>
+  <div class="device-notch"><div class="notch"></div></div>
+  <div class="screen page-index-unpaired">
+    <div class="large-title">约见</div>
+
+    <div class="pair-card">
+      <div class="pair-status">
+        <div class="status-dot active"></div>
+        <span class="status-label">已配对</span>
+      </div>
+
+      <div class="partner-row">
+        <div class="partner-avatar">A</div>
+        <div class="partner-info">
+          <span class="partner-name">阿丽</span>
+          <span class="partner-location" style="color:#34C759;">位置已更新</span>
+        </div>
+      </div>
+
+      <div class="divider-line-h"></div>
+
+      <div class="pair-code-row">
+        <div>
+          <div class="pair-code-label">配对码</div>
+          <div class="pair-code-value">A7K9M2</div>
+        </div>
+        <button class="btn-copy">复制</button>
+      </div>
+
+      <div class="qr-section">
+        <div class="qr-hint">让对方输入以下配对码加入</div>
+        <div class="qr-big-code">A7K9M2</div>
+        <button class="btn-copy" style="padding:8px 0;">复制配对码</button>
+      </div>
+    </div>
+
+    <div class="action-section" style="padding:0 16px;">
+      <button class="btn-primary large">进入地图</button>
+      <button class="btn-text-danger">解除配对</button>
+    </div>
+
+    <div style="text-align:center;font-size:12px;color:#00000048;padding:24px 0;">MeetPoint v1.0</div>
+  </div>
+</div>
+
+<!-- ====== Page 2: Map ====== -->
+<div class="device">
+  <div class="device-label">地图页</div>
+  <div class="device-notch"><div class="notch"></div></div>
+  <div class="screen page-map" style="padding:0;">
+    <div class="map-placeholder">
+      <div class="map-grid"></div>
+
+      <div class="map-toolbar">
+        <div class="location-tag">
+          <div class="tag-dot dot-blue"></div>
+          <span class="tag-text">我的位置</span>
+        </div>
+        <div class="location-tag">
+          <div class="tag-dot dot-green"></div>
+          <span class="tag-text">对方位置</span>
+        </div>
+      </div>
+
+      <div style="position:absolute;bottom:20px;right:16px;width:44px;height:44px;border-radius:50%;background:#FFF;border:0.5px solid #E5E5EA;display:flex;align-items:center;justify-content:center;font-size:22px;color:#007AFF;box-shadow:0 2px 8px rgba(0,0,0,0.08);cursor:pointer;">↻</div>
+
+      <div style="position:absolute;bottom:20px;left:16px;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.95);padding:6px 12px;border-radius:20px;box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+        <div class="loc-pulse"></div>
+        <span style="font-size:12px;color:#34C759;font-weight:500;">实时定位中</span>
+      </div>
+    </div>
+
+    <div class="bottom-panel">
+      <div class="transport-tabs">
+        <div class="tab-transport tab-active">
+          <span>🚗</span>
+          <span class="tab-transport-label">驾车</span>
+        </div>
+        <div class="tab-transport">
+          <span>🚌</span>
+          <span class="tab-transport-label">公交</span>
+        </div>
+        <div class="tab-transport">
+          <span>🚴</span>
+          <span class="tab-transport-label">骑行</span>
+        </div>
+        <div class="tab-transport">
+          <span>🚶</span>
+          <span class="tab-transport-label">步行</span>
+        </div>
+      </div>
+
+      <div class="route-info">
+        <div class="route-row">
+          <div class="route-item">
+            <span class="route-label">我方</span>
+            <span class="route-value">15分钟</span>
+            <span class="route-sub">3.2 km</span>
+          </div>
+          <div class="route-divider"></div>
+          <div class="route-item">
+            <span class="route-label">对方</span>
+            <span class="route-value">18分钟</span>
+            <span class="route-sub">4.1 km</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-info">
+        <div class="meeting-header">
+          <span style="font-size:24px;">🤝</span>
+          <div>
+            <div class="meeting-title">推荐相遇点</div>
+            <div class="meeting-desc">时间差仅 3 分钟</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-action btn-route">计算路线</button>
+        <button class="btn-action btn-meeting">推荐见面点</button>
+      </div>
+
+      <div class="panel-handle">
+        <div class="handle-bar"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Page 3: Partner ====== -->
+<div class="device">
+  <div class="device-label">配对页</div>
+  <div class="device-notch"><div class="notch"></div></div>
+  <div class="screen page-index-unpaired">
+    <div class="large-title">配对</div>
+
+    <div class="card-section">
+      <div class="card">
+        <div class="card-title">加入配对</div>
+        <div class="card-subtitle">扫描对方的二维码，或手动输入配对码</div>
+
+        <button class="scan-btn">
+          <span class="scan-icon">📷</span>
+          <span>扫码加入</span>
+        </button>
+
+        <div class="divider-line">
+          <div class="hr"></div>
+          <span class="divider-text">或</span>
+          <div class="hr"></div>
+        </div>
+
+        <input class="code-input" placeholder="输入6位配对码" style="pointer-events:none;" />
+
+        <div class="code-preview">
+          <div class="code-char">A</div>
+          <div class="code-char">B</div>
+          <div class="code-char">3</div>
+          <div class="code-char">X</div>
+          <div class="code-char">7</div>
+          <div class="code-char">K</div>
+        </div>
+
+        <button class="btn-primary">加入配对</button>
+      </div>
+    </div>
+
+    <div class="tips">
+      <span class="tips-text">配对码有效期 24 小时，过期后需重新创建</span>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Page 4: History ====== -->
+<div class="device">
+  <div class="device-label">记录页</div>
+  <div class="device-notch"><div class="notch"></div></div>
+  <div class="screen page-index-unpaired">
+    <div class="large-title">记录</div>
+
+    <div class="stats-card">
+      <div class="stat-item">
+        <span class="stat-value">5</span>
+        <span class="stat-label">本月见面</span>
+      </div>
+      <div class="stat-divider-v"></div>
+      <div class="stat-item">
+        <span class="stat-value">12</span>
+        <span class="stat-label">累计次数</span>
+      </div>
+      <div class="stat-divider-v"></div>
+      <div class="stat-item">
+        <span class="stat-value">4′</span>
+        <span class="stat-label">平均时差</span>
+      </div>
+    </div>
+
+    <div class="section-header">历史记录</div>
+
+    <div class="record-list">
+      <div class="record-item">
+        <div class="record-left">
+          <span class="record-date">4月20日 周日</span>
+          <div class="record-meta">
+            <span class="record-transport">🚗 驾车</span>
+            <span style="font-size:13px;color:#00000048;">相距3.2km</span>
+          </div>
+        </div>
+        <div class="record-right">
+          <div class="record-times">
+            <span class="time-badge me">15′</span>
+            <span style="color:#00000048;">|</span>
+            <span class="time-badge partner">18′</span>
+          </div>
+          <span class="record-status completed">已完成</span>
+        </div>
+      </div>
+      <div class="record-item">
+        <div class="record-left">
+          <span class="record-date">4月15日 周二</span>
+          <div class="record-meta">
+            <span class="record-transport">🚌 公交</span>
+            <span style="font-size:13px;color:#00000048;">相距5.1km</span>
+          </div>
+        </div>
+        <div class="record-right">
+          <div class="record-times">
+            <span class="time-badge me">25′</span>
+            <span style="color:#00000048;">|</span>
+            <span class="time-badge partner">22′</span>
+          </div>
+          <span class="record-status scheduled">已预约</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Page 5: Settings ====== -->
+<div class="device">
+  <div class="device-label">设置页</div>
+  <div class="device-notch"><div class="notch"></div></div>
+  <div class="screen page-index-unpaired">
+    <div class="large-title">设置</div>
+
+    <div style="margin-bottom:20px;">
+      <div class="section-header">出行偏好</div>
+      <div class="settings-list">
+        <div class="settings-item">
+          <span class="settings-item-icon">🚗</span>
+          <span class="settings-item-label">驾车</span>
+          <span class="settings-item-check">✓</span>
+        </div>
+        <div class="settings-item" style="opacity:0.6;">
+          <span class="settings-item-icon">🚌</span>
+          <span class="settings-item-label">公交/地铁</span>
+        </div>
+        <div class="settings-item" style="opacity:0.6;">
+          <span class="settings-item-icon">🚴</span>
+          <span class="settings-item-label">骑行</span>
+        </div>
+        <div class="settings-item" style="opacity:0.6;">
+          <span class="settings-item-icon">🚶</span>
+          <span class="settings-item-label">步行</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <div class="section-header">关于</div>
+      <div class="settings-list">
+        <div class="settings-item">
+          <span class="settings-item-label">版本</span>
+          <span style="color:#00000099;">1.0.0</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px;padding:0 16px;">
+      <div class="danger-card">
+        <div class="danger-header">
+          <span class="danger-title">解除配对</span>
+          <span class="danger-desc">解除后将不再共享位置和见面记录</span>
+        </div>
+        <button class="btn-unpair">解除当前配对</button>
+      </div>
+    </div>
+
+    <div style="text-align:center;font-size:13px;color:#00000048;padding:24px 0;">
+      约见 MeetPoint v1.0.0
+    </div>
+  </div>
+</div>
+
+<!-- ====== History Empty State ====== -->
+<div class="device">
+  <div class="device-label">记录页 · 空状态</div>
+  <div class="device-notch"><div class="notch"></div></div>
+  <div class="screen page-index-unpaired">
+    <div class="large-title">记录</div>
+
+    <div class="section-header">历史记录</div>
+
+    <div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <div class="empty-title">暂无记录</div>
+      <div class="empty-desc">在地图页计算相遇点后，将自动生成记录</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
